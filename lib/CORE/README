@@ -1,0 +1,20 @@
+Core Library 2.0 Design Notes
+
+Zilin Du, Jan 2006
+
+1. list of classes:
+
+  BigInt   -- wrapper of mpz
+  BigRat   -- wrapper of mpq
+
+  Double   -- wrapper of machine double, IEEE floating-point number
+  Mpfr     -- wrapper of mpfr, extended IEEE floating-point number (weak mode)
+
+  FpFilter -- floating-pointer filter (currently a pair of Double)
+  BigFloat -- strong mode of floating-point number (currently a pair of Mpfr)
+  IA       -- generic interval arithmetic template class, used by BigFloat 
+              and FpFilter
+  
+  ExprRep  -- internal expression node
+  Expr     -- expression
+   

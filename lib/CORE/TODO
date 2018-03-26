@@ -1,0 +1,114 @@
+TODO List:
+
+6/8/2012:
+1. vor/vor2d cannot compile in Level 2:   cos(BigFloat) did not seem
+	to be defined...  Just write a wrapper around the cos(...) found
+	in inc/CORE/BigFloat.h
+
+
+(low priority)
+1. finish BigFloat back-compatiable functions
+2. implement Mpfr auto version
+3. python interface for Expr
+
+(high priority)
+1. timing speedup 
+2. implement non-algebraic flag
+3. writing paper
+4. all root bound information only needed.
+
+
+2/10/2006:
+1. define a structure to replace 3 template parameters for Expr:
+   template <typename Filter, typename Kernel, typename RootBound>
+   struct Triple {
+	typedef Filter 		filter_type;
+	typedef Kernel 		kernel_type;
+	typedef RootBound 	rootbd_type;
+   };
+
+   template <typename Triple>
+   class ExprRepT {
+     Triple::filter_type m_filter;
+     Triple::kernel_type m_kernel;
+     Triple::rootbd_type m_rootbd;
+   };
+
+2. designed some macro for help user develop their own expr node:
+
+   BEGIN_DEFINE_UNARY_NODE(Neg)
+=> template <typename Triple>
+   class Neg : public UnaryRepT<Triple> {
+     typedef ExprRepT<Triple> base_class;
+     typedef UnaryRepT<Triple> parent_class;
+     typedef Neg<Triple> this_class;
+   public:
+     Neg(base_class* c) : parent_class(c) {
+     }
+
+     BEGIN_DEFINE_RULE(filter)
+=>   virtural void compute_filter() {
+
+       this->m_filter.neg(this->child->m_filter);
+
+     END_DEFINE_RULE
+=>   };
+     
+     BEGIN_DEFINE_RULE(sign)
+=>   virtural void compute_sign() {
+
+       this->sign() = -this->child->get_sign();
+
+     END_DEFINE_RULE
+=>   };
+     
+     BEGIN_DEFINE_RULE(uMSB)
+=>   virtural void compute_uMSB() {
+
+       this->uMSB() = this->child->get_uMSB();
+
+     END_DEFINE_RULE
+=>   };
+     
+     BEGIN_DEFINE_RULE(lMSB)
+=>   virtural void compute_lMSB() {
+
+       this->lMSB() = this->child->get_lMSB();
+
+     END_DEFINE_RULE
+=>   };
+
+     BEGIN_DEFINE_RULE(r_approx)
+=>   virtural bool compute_r_approx(prec_t prec) {
+
+       this->appValue() = this->appValue.neg(this->child->r_approx(prec), prec);
+
+     END_DEFINE_RULE
+=>   };
+
+     BEGIN_DEFINE_RULE(a_approx)
+=>   virtural bool compute_a_approx(prec_t prec) {
+
+       this->appValue() = this->appValue.neg(this->child->a_approx(prec), this->abs2rel(prec));
+
+     END_DEFINE_RULE
+=>   };
+
+
+     BEGIN_DEFINE_RULE(rootBd)
+=>   virtural void compute_rootBd() {
+
+       this->rootBd().neg(this->child->get_rootBd());
+
+     END_DEFINE_RULE
+=>   };
+     
+     
+   END_DEFINE_UNARY_NODE
+=> };
+
+   DEFINE_UNARY_FUNCTION(neg, Neg)
+=> Expr neg(const Expr& e) {
+     return Expr(new Neg(e.rep()));
+   }
+

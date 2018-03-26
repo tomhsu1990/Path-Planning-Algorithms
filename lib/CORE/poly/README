@@ -1,0 +1,16 @@
+README
+
+Oct 2010:
+  Narayan implemented various aspects of complex number type,
+  and complex polynomials.  These are found under progs/mesh
+  (esp.benchmark).  These should be transferred here for general use.
+
+Dec 21, 2006: 
+  We implemented Descartes method, intended to
+  replace Sturm.  But strangely Descartes is slower
+  than Sturm for our basic tests (under poly/tSturm* and
+  poly/tDescartes*).  Perhaps there are some optimizations
+  for Descartes that we missed.  
+
+  -- Chee, Jihun, Philip 
+
