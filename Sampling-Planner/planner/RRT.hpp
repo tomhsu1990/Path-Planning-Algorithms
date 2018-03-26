@@ -38,8 +38,7 @@ public:
 
     RRT(const Env &env, double tr, double rr, const Config& start, const Config& goal,
         unsigned int max_sample, float expand_step, float bias, float close_to_goal);
-
-	virtual ~RRT();
+    virtual ~RRT();
 
     virtual bool findPath();
     RRT_Tree& getTree() { return m_tree; }
@@ -51,10 +50,10 @@ protected:
     RRT_Tree m_tree;
     std::shared_ptr< flann::Index< flann::L2<double> > > index_;
 
-	unsigned int m_max_sample;
+    unsigned int m_max_sample;
     float m_expand_step;
-	float m_goal_bias;
-	float m_close_to_goal;
+    float m_goal_bias;
+    float m_close_to_goal;
 
 private:
     void addPoint (RRT_NODE* node) ;
