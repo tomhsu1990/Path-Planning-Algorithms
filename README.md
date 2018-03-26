@@ -1,4 +1,4 @@
-# Path-Planning-Algorithms
+# Path Planning Algorithms
 
 Path planning (also known as the navigation problem or the piano mover's problem) is a fundemental problem in Robotics to break down a desired movement task into discrete motions that satisfy movement constraints and possibly optimize some aspect of the movement. There are three main approaches in Path Planning:
 
