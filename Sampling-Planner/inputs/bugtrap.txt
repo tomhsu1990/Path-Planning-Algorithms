@@ -1,0 +1,75 @@
+# file: bugtrap.txt
+#
+# 	This is the "bug trap" environment that makes life difficult for
+# 	probabilistic motion planning based on PRM...
+#
+#	Interesting parameters to try for running this example:
+#
+#	Example 1:
+#		radius = 10,  epsilon = 5,  start = (200,350), goal = (30,30)
+#		
+#		Our software reports "No Path".
+#		But visually, you will see a green path that has to pass
+#		between two green boxes through a shared corner, but these two
+#		boxes do not share an edge.  In other words, there is NO green channel.
+#	
+#	Example 2:
+#		Same parameters as before, but epsilon = 4.
+#		Now, our disc program finds a Path.	
+#
+#	Chee Yap (April 22, 2012)
+#
+#
+#
+# Code from xfig:
+#
+# closed polygon:
+# 2 1 0 1 0 7 50 -1 -1 0.000 0 0 -1 0 0 33
+#	 2250 2025 2550 2400 3075 2400 4050 1800 3900 1125 2850 825
+#	 1275 975 900 2100 1650 3900 2325 4125 3825 3825 4125 2625
+#	 3600 2550 2925 2775 2400 2700 2025 2250
+#	 1950 2325 2400 2850
+#	 2925 2925 3600 2625 3975 2700 3675 3750 2400 4050 1725 3825
+#	 1050 2100 1350 1050 2775 900 3750 1200 3900 1725 3075 2250
+#	 2625 2250 2325 1950 2250 2025
+#
+# Remark: xfig output has 33 points because the first and last points are the same.
+
+32
+225.0 202.5
+255.0 240.0
+307.5 240.0
+405.0 180.0
+390.0 112.5
+285.0 82.5
+127.5 97.5
+90.0 210.0
+165.0 390.0
+232.5 412.5
+382.5 382.5
+412.5 262.5
+360.0 255.0
+292.5 277.5
+240.0 270.0
+202.5 225.0
+195.0 232.5
+240.0 285.0
+292.5 292.5
+360.0 262.5
+397.5 270.0
+367.5 375.0
+240.0 405.0
+172.5 382.5
+105.0 210.0
+135.0 105.0
+277.5 90.0
+375.0 120.0
+390.0 172.5
+307.5 225.0
+262.5 225.0
+232.5 195.0
+
+# opengl doesn't support fillin concave polygons, so if we want to shade the polygon we need to split it into convex ones.
+1
+32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 32
+

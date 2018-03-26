@@ -1,0 +1,14 @@
+# Number of Points:
+8
+206 26
+306 26
+306 402
+446 402
+446 452
+ 66 452
+ 66 402
+206 402
+# NUMBER OF POLYGONS:
+6
+# Definition of Polygons:
+1 8 7 6 5 4 3 2 1

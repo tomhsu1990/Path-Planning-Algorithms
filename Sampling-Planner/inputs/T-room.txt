@@ -1,0 +1,34 @@
+# file: T-room.txt
+#
+#	Adapted from T-room.fig
+#	
+#	--Chee and Zhongdi  (Jan 2014)
+#
+# THIS IS THE ORIGINAL xfig file:
+
+#	#FIG 3.2  Produced by xfig version 3.2.5b
+#	Landscape
+#	Center
+#	Inches
+#	Letter  
+#	100.00
+#	Single
+#	-2
+#	1200 2
+#	2 3 0 1 0 7 50 -1 -1 0.000 0 0 -1 0 0 9
+#		 1425 2850 2475 2850 2475 7500 3375 7500 3375 2850 4350 2850
+#		 4350 2175 1425 2175 1425 2850
+
+# Number of Points:
+8
+# Definition of Points:
+#	2 3 0 1 0 7 50 -1 -1 0.000 0 0 -1 0 0 9
+	 1425 2850 2475 2850 2475 7500 3375 7500 3375 2850 4350 2850
+	 4350 2175 1425 2175
+# NUMBER OF POLYGONS:
+1
+# Definition of Polygons:
+1 2 3 4 5 6 7 8 1
+
+# END OF FILE
+
