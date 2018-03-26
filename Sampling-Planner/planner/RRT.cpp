@@ -9,7 +9,7 @@
 
 RRT::RRT (const Env &env, double tr, double rr, const Config& start, const Config& goal,
          unsigned int max_sample, float expand_step, float bias, float close_to_goal)
-    : Planner(env,tr,rr,start,goal), index_(NULL) {
+    : Planner(env,tr,rr,start,goal), index_(nullptr) {
     m_max_sample=max_sample;
     m_expand_step=expand_step;
     m_goal_bias=bias;
@@ -31,7 +31,7 @@ void RRT::addPoint (RRT_NODE* node) {
     for (int i=0;i<m_env.dim;++i) {
         flann_point[0][i] = node->cfg.t[i];
     }
-    if (index_ == NULL) {
+    if (index_ == nullptr) {
         index_.reset(new flann::Index< flann::L2<double> >(
                          flann_point, flann::KDTreeIndexParams(1)));
         index_->buildIndex();
