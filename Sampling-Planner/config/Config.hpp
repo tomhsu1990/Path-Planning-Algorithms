@@ -88,10 +88,7 @@ public:
         Config nc = (*this);
         double n = norm();
         if (n > 0) {
-            for (int i=0;i<nc.dim_t;++i)
-                nc.t[i] = nc.t[i]/n;
-            for (int i=0;i<nc.dim_r;++i)
-                nc.r[i] = nc.r[i]/n;
+            nc = nc/n;
         }
         return nc;
     }
