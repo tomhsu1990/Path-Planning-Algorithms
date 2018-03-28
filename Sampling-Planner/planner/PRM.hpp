@@ -43,8 +43,6 @@ protected:
     std::vector<vertex_descriptor> cfgs;
     std::shared_ptr< flann::Index< flann::L2<double> > > index_;
 
-
-
     unsigned int m_n_sample;
     unsigned int m_k_closest;
 

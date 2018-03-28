@@ -1,4 +1,10 @@
-
+/*
+ *  Display.cpp
+ *
+ *  Created on: Mar. 24, 2018
+ *      Author: Ching-Hsiang Hsu
+ *
+ */
 
 #include "Display.hpp"
 

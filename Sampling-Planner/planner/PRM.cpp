@@ -1,3 +1,11 @@
+/*
+ *  PRM.cpp
+ *
+ *  Created on: Mar. 22, 2018
+ *      Author: Ching-Hsiang Hsu
+ *
+ */
+
 #include "PRM.hpp"
 
 PRM::PRM(const Env &env, double tr, double rr, const Config& start, const Config& goal,

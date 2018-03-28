@@ -1,4 +1,10 @@
-
+/*
+ *  Config.hpp
+ *
+ *  Created on: Mar. 22, 2018
+ *      Author: Ching-Hsiang Hsu
+ *
+ */
 
 #ifndef CONFIG_H
 #define CONFIG_H

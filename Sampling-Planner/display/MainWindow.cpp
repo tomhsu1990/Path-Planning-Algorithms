@@ -1,6 +1,12 @@
-#include "MainWindow.hpp"
+/*
+ *  MainWindow.cpp
+ *
+ *  Created on: Mar. 24, 2018
+ *      Author: Ching-Hsiang Hsu
+ *
+ */
 
-using namespace std;
+#include "MainWindow.hpp"
 
 extern FileParameter *f_prm;
 extern Planner *planner;

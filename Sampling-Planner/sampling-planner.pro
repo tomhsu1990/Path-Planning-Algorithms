@@ -1,3 +1,9 @@
+#
+#  sampling-planner.pro
+#
+#  Created on: Mar. 22, 2018
+#     Author: Ching-Hsiang Hsu
+
 QT       += \
 core \
 gui \

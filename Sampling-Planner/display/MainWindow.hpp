@@ -1,3 +1,11 @@
+/*
+ *  MainWindow.hpp
+ *
+ *  Created on: Mar. 24, 2018
+ *      Author: Ching-Hsiang Hsu
+ *
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 

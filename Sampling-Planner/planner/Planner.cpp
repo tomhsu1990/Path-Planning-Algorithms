@@ -1,3 +1,11 @@
+/*
+ *  Planner.cpp
+ *
+ *  Created on: Mar. 22, 2018
+ *      Author: Ching-Hsiang Hsu
+ *
+ */
+
 #include "Planner.hpp"
 
 Planner::Planner (const Env &env, double tr, double rr, const Config& start, const Config& goal) {

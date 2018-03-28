@@ -1,4 +1,10 @@
-
+/*
+ *  Robot.hpp
+ *
+ *  Created on: Mar. 22, 2018
+ *      Author: Ching-Hsiang Hsu
+ *
+ */
 
 #ifndef ROBOT_H_
 #define ROBOT_H_

@@ -1,4 +1,10 @@
-
+/*
+ *  FileParameter.hpp
+ *
+ *  Created on: Mar. 22, 2018
+ *      Author: Ching-Hsiang Hsu
+ *
+ */
 
 #ifndef FILEPARAMETER_H
 #define FILEPARAMETER_H
