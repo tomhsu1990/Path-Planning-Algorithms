@@ -61,7 +61,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="inputFile"/>
+      <widget class="QLineEdit" name="input_file"/>
      </item>
      <item>
       <widget class="QLabel" name="label_2">
@@ -99,7 +99,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="aX">
+        <widget class="QDoubleSpinBox" name="start_x">
          <property name="decimals">
           <number>1</number>
          </property>
@@ -120,7 +120,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="aY">
+        <widget class="QDoubleSpinBox" name="start_y">
          <property name="decimals">
           <number>1</number>
          </property>
@@ -160,7 +160,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="bX">
+        <widget class="QDoubleSpinBox" name="goal_x">
          <property name="decimals">
           <number>1</number>
          </property>
@@ -181,7 +181,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="bY">
+        <widget class="QDoubleSpinBox" name="goal_y">
          <property name="decimals">
           <number>1</number>
          </property>
@@ -221,7 +221,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="inputFile_2"/>
+        <widget class="QLineEdit" name="robot_name"/>
        </item>
       </layout>
      </item>
@@ -235,7 +235,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="l1">
+        <widget class="QDoubleSpinBox" name="R">
          <property name="decimals">
           <number>0</number>
          </property>
@@ -266,7 +266,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="random"/>
+      <widget class="QSpinBox" name="seed"/>
      </item>
     </layout>
    </widget>
@@ -288,14 +288,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="toggle">
+      <widget class="QRadioButton" name="toggle_prm">
        <property name="text">
         <string>Toggle PRM</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QRadioButton" name="lazytoggle">
+      <widget class="QRadioButton" name="lazy_toggle_prm">
        <property name="text">
         <string>Lazy Toggle PRM</string>
        </property>
@@ -437,7 +437,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSlider" name="animationSpeed">
+      <widget class="QSlider" name="animation_speed">
        <property name="value">
         <number>90</number>
        </property>
@@ -475,7 +475,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox"/>
+      <widget class="QComboBox" name="example_list"/>
      </item>
     </layout>
    </widget>
@@ -727,7 +727,7 @@
      <string>rrt graph</string>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textOutputTime">
+   <widget class="QTextBrowser" name="text_output_time">
     <property name="geometry">
      <rect>
       <x>550</x>
@@ -766,7 +766,7 @@
    <widget class="QWidget" name="layoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>550</x>
       <y>360</y>
       <width>188</width>
       <height>36</height>
@@ -824,7 +824,7 @@
      <string>edge</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="trace">
+   <widget class="QPushButton" name="show_trace">
     <property name="geometry">
      <rect>
       <x>670</x>
@@ -837,7 +837,7 @@
      <string>trace</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="showFilledObstacles">
+   <widget class="QPushButton" name="show_filled_obstacles">
     <property name="geometry">
      <rect>
       <x>550</x>

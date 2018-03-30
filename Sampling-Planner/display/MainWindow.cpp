@@ -16,85 +16,69 @@ extern void run();
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    for(int i=0;i<f_prm->num_cfg;++i) {
-        ui->comboBox->addItem(f_prm->cfg_name_list[i].c_str());
+    for (int i=0;i<f_prm->num_cfg;++i) {
+        ui->example_list->addItem(f_prm->cfg_name_list[i].c_str());
     }
-    for(int i=0;i<f_prm->num_cfg;++i) {
+    for (int i=0;i<f_prm->num_cfg;++i) {
         if (f_prm->cfg_name_list[i].compare(f_prm->cfg_name.c_str()) == 0) {
-            ui->comboBox->setCurrentIndex(i);
+            ui->example_list->setCurrentIndex(i);
         }
     }
-    ui->inputFile->setText(QString::fromStdString(f_prm->file_name.substr(0,f_prm->file_name.size()-4)));
+    ui->input_file->setText(QString::fromStdString(f_prm->file_name.substr(0,f_prm->file_name.size()-4)));
 
-//    ui->aX->setValue(start.x);
-//    ui->aY->setValue(start.y);
-//    ui->aT1->setValue(start.t1);
-//    ui->aT2->setValue(start.t2);
+    ui->start_x->setValue(f_prm->start.t[0]);
+    ui->start_y->setValue(f_prm->start.t[1]);
 
-//    ui->bX->setValue(goal.x);
-//    ui->bY->setValue(goal.y);
-//    ui->bT1->setValue(goal.t1);
-//    ui->bT2->setValue(goal.t2);
+    ui->goal_x->setValue(f_prm->goal.t[0]);
+    ui->goal_y->setValue(f_prm->goal.t[1]);
 
-//    ui->l1->setValue(l1);
-//    ui->l2->setValue(l2);
-//    ui->thickness->setValue(thickness);
+    ui->robot_name->setText(QString::fromStdString(f_prm->robot.name));
+    if (f_prm->robot.name.compare("disc") == 0) {
+        ui->R->setValue(f_prm->robot.R);
+    }
+    else if (f_prm->robot.name.compare("1link") == 0) {
 
+    }
+    else if (f_prm->robot.name.compare("2links") == 0) {
 
-//    switch (SearchType) {
-//        case 0:
-//            ui->prm->setChecked(true);
-//            break;
-//        case 1:
-//            ui->gauss->setChecked(true);
-//            break;
-//        case 2:
-//            ui->rrt->setChecked(true);
-//            break;
-//        case 3:
-//            ui->toggle->setChecked(true);
-//            break;
-//        case 4:
-//            ui->lazytoggle->setChecked(true);
-//            break;
-//    }
+    }
 
-//    ui->max_sample->setValue(max_sample_size);
+    if (f_prm->method.compare("prm") || f_prm->method.compare("PRM") || f_prm->method.compare("Prm")) {
+        ui->prm->setChecked(true);
+    }
+    else if (f_prm->method.compare("rrt") || f_prm->method.compare("RRT") || f_prm->method.compare("Rrt")) {
+        ui->rrt->setChecked(true);
+    }
 
-//    ui->prm_closest_free_k->setValue(prm_closest_free_k);
-//    ui->prm_closest_obst_k->setValue(prm_closest_obst_k);
+    ui->max_sample->setValue(f_prm->max_sample_size);
 
-//    ui->gauss_closest_k->setValue(prm_closest_free_k);
-//    ui->gauss_mean->setValue(gauss_mean_d);
-//    ui->gauss_std->setValue(gauss_std);
+    ui->prm_closest_free_k->setValue(f_prm->prm_closest_free_k);
+    ui->prm_closest_obst_k->setValue(f_prm->prm_closest_obst_k);
 
-//    ui->rrt_step_size->setValue(rrt_step_size);
-//    ui->rrt_bias->setValue(rrt_bias);
-//    ui->rrt_close_to_goal->setValue(rrt_close_to_goal);
+    ui->rrt_step_size->setValue(f_prm->rrt_step_size);
+    ui->rrt_bias->setValue(f_prm->rrt_bias);
+    ui->rrt_close_to_goal->setValue(f_prm->rrt_close_to_goal);
 
-//    ui->prm_graph->setChecked(prm_graph);
-//    ui->prm_graph_mixed->setChecked(prm_graph_mixed);
-//    ui->prm_graph_free->setChecked(prm_graph_free);
-//    ui->prm_graph_obst->setChecked(prm_graph_obst);
-//    ui->prm_graph_edge->setChecked(prm_graph_edge);
+    ui->prm_graph->setChecked(f_prm->show_prm_graph);
+    ui->prm_graph_mixed->setChecked(f_prm->show_prm_graph_mixed);
+    ui->prm_graph_free->setChecked(f_prm->show_prm_graph_free);
+    ui->prm_graph_obst->setChecked(f_prm->show_prm_graph_obst);
+    ui->prm_graph_edge->setChecked(f_prm->show_prm_graph_edge);
 
-//    ui->rrt_graph->setChecked(rrt_graph);
+    ui->rrt_graph->setChecked(f_prm->show_rrt_graph);
 
-//    ui->animationSpeed->setValue(animationSpeed);
-//    ui->random->setValue(seed);
-//    srand(seed);
+    ui->animation_speed->setValue(f_prm->animation_speed);
+    ui->seed->setValue(f_prm->seed);
+    srand(f_prm->seed);
 
-//    ui->timeout->setValue(timeout);
+    ui->timeout->setValue(f_prm->timeout);
 
-    ui->textOutputTime->setText(QString::fromStdString(""));
+    ui->text_output_time->setText(QString::fromStdString(""));
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
-
-
 
 //================================//
 //     Display Text to Window     //
@@ -144,125 +128,99 @@ MainWindow& MainWindow::operator<< (double d) {
 
 void MainWindow::on_run_clicked() {
 
-//    char cfgPre[200], cfgCur[200];
-//    sprintf(cfgPre, "%s", cfgName.c_str());
-//    //sprintf(egCur, "%s", ui->egFile->text().toStdString().c_str());
-//    sprintf(cfgCur, "%s", ui->comboBox->currentText().toStdString().c_str());
+    if (ui->example_list->currentText().toStdString().compare(f_prm->cfg_name) == 0) {
+        f_prm->file_name=ui->input_file->text().toStdString()+".txt";
 
-//    if (strcmp(cfgPre, cfgCur) == 0) {
-//        fileName=ui->inputFile->text().toStdString()+".txt";
+        f_prm->start.t[0] = ui->start_x->value();
+        f_prm->start.t[1] = ui->start_y->value();
 
-//        start.x=ui->aX->value();
-//        start.y=ui->aY->value();
-//        start.t1=ui->aT1->value();
-//        start.t2=ui->aT2->value();
-//        start.ws = false;
+        f_prm->goal.t[0] = ui->goal_x->value();
+        f_prm->goal.t[1] = ui->goal_y->value();
 
-//        goal.x=ui->bX->value();
-//        goal.y=ui->bY->value();
-//        goal.t1=ui->bT1->value();
-//        goal.t2=ui->bT2->value();
-//        goal.ws = false;
+        f_prm->robot.name = ui->robot_name->text().toStdString();
+        if (f_prm->robot.name.compare("disc") == 0) {
+            f_prm->robot.R = ui->R->value();
+        }
+        else if (f_prm->robot.name.compare("1link") == 0) {
 
-//        l1=ui->l1->value();
-//        l2=ui->l2->value();
-//        thickness=ui->thickness->value();
+        }
+        else if (f_prm->robot.name.compare("2links") == 0) {
 
-//        max_sample_size=ui->max_sample->value();
+        }
 
-//        prm_closest_free_k=ui->prm_closest_free_k->value();
-//        prm_closest_obst_k=ui->prm_closest_obst_k->value();
 
-//        prm_closest_free_k=ui->gauss_closest_k->value();
-//        gauss_mean_d=ui->gauss_mean->value();
-//        gauss_std=ui->gauss_std->value();
+        f_prm->max_sample_size=ui->max_sample->value();
 
-//        rrt_step_size=ui->rrt_step_size->value();
-//        rrt_bias=ui->rrt_bias->value();
-//        rrt_close_to_goal=ui->rrt_close_to_goal->value();
+        f_prm->prm_closest_free_k=ui->prm_closest_free_k->value();
+        f_prm->prm_closest_obst_k=ui->prm_closest_obst_k->value();
 
-//        prm_graph=ui->prm_graph->isChecked();
-//        rrt_graph=ui->rrt_graph->isChecked();
-//        non_crossing=ui->non_crossing->isChecked();
+        f_prm->rrt_step_size=ui->rrt_step_size->value();
+        f_prm->rrt_bias=ui->rrt_bias->value();
+        f_prm->rrt_close_to_goal=ui->rrt_close_to_goal->value();
 
-//        ompl = ui->ompl->isChecked();
+        f_prm->show_prm_graph=ui->prm_graph->isChecked();
+        f_prm->show_rrt_graph=ui->rrt_graph->isChecked();
 
-//        // 4/13/2016
-//        // only initialize the seed when it is changed
-//        int new_seed = ui->random->value();
-//        if (seed != new_seed) {
-//            seed = new_seed;
-//            srand(seed);
-//        }
+        // 4/13/2016
+        // only initialize the seed when it is changed
+        int new_seed = ui->seed->value();
+        if (f_prm->seed != new_seed) {
+            f_prm->seed = new_seed;
+            srand(f_prm->seed);
+        }
 
-//        timeout = ui->timeout->value();
-//    } else {
-//        //egName=ui->egFile->text().toStdString();
-//        cfgName = ui->comboBox->currentText().toStdString();
-//        parseExampleFile();
+        f_prm->timeout = ui->timeout->value();
+    }
+    else {
+        f_prm->cfg_name = ui->example_list->currentText().toStdString();
+        f_prm->parseExampleFile();
 
-//        ui->inputFile->setText(QString::fromStdString(fileName.substr(0,fileName.length()-4)));
+        ui->input_file->setText(QString::fromStdString(f_prm->file_name.substr(0,f_prm->file_name.length()-4)));
 
-//        ui->aX->setValue(start.x);
-//        ui->aY->setValue(start.y);
-//        ui->aT1->setValue(start.t1);
-//        ui->aT2->setValue(start.t2);
-//        start.ws = false;
+        ui->start_x->setValue(f_prm->start.t[0]);
+        ui->start_y->setValue(f_prm->start.t[1]);
 
-//        ui->bX->setValue(goal.x);
-//        ui->bY->setValue(goal.y);
-//        ui->bT1->setValue(goal.t1);
-//        ui->bT2->setValue(goal.t2);
-//        goal.ws = false;
+        ui->goal_x->setValue(f_prm->goal.t[0]);
+        ui->goal_y->setValue(f_prm->goal.t[1]);
 
-//        ui->l1->setValue(l1);
-//        ui->l2->setValue(l2);
-//        ui->thickness->setValue(thickness);
+        ui->robot_name->setText(QString::fromStdString(f_prm->robot.name));
+        if (f_prm->robot.name.compare("disc") == 0) {
+            ui->R->setValue(f_prm->robot.R);
+        }
+        else if (f_prm->robot.name.compare("1link") == 0) {
 
-//        if(strcmp(method.c_str(), "prm") == 0){
-//                ui->prm->setChecked(true);
-//        }
-//        if(strcmp(method.c_str(), "gauss") == 0){
-//                ui->gauss->setChecked(true);
-//        }
-//        if(strcmp(method.c_str(), "rrt") == 0){
-//                ui->rrt->setChecked(true);
-//        }
-//        if(strcmp(method.c_str(), "toggle") == 0){
-//                ui->toggle->setChecked(true);
-//        }
-//        if(strcmp(method.c_str(), "lazytoggle") == 0){
-//                ui->lazytoggle->setChecked(true);
-//        }
+        }
+        else if (f_prm->robot.name.compare("2links") == 0) {
 
-//        ui->max_sample->setValue(max_sample_size);
+        }
 
-//        ui->prm_closest_free_k->setValue(prm_closest_free_k);
-//        ui->prm_closest_obst_k->setValue(prm_closest_obst_k);
+        if (f_prm->method.compare("prm") || f_prm->method.compare("PRM") || f_prm->method.compare("Prm")) {
+            ui->prm->setChecked(true);
+        }
+        else if (f_prm->method.compare("rrt") || f_prm->method.compare("RRT") || f_prm->method.compare("Rrt")) {
+            ui->rrt->setChecked(true);
+        }
+        ui->max_sample->setValue(f_prm->max_sample_size);
 
-//        ui->gauss_closest_k->setValue(prm_closest_free_k);
-//        ui->gauss_mean->setValue(gauss_mean_d);
-//        ui->gauss_std->setValue(gauss_std);
+        ui->prm_closest_free_k->setValue(f_prm->prm_closest_free_k);
+        ui->prm_closest_obst_k->setValue(f_prm->prm_closest_obst_k);
 
-//        ui->rrt_step_size->setValue(rrt_step_size);
-//        ui->rrt_bias->setValue(rrt_bias);
-//        ui->rrt_close_to_goal->setValue(rrt_close_to_goal);
+        ui->rrt_step_size->setValue(f_prm->rrt_step_size);
+        ui->rrt_bias->setValue(f_prm->rrt_bias);
+        ui->rrt_close_to_goal->setValue(f_prm->rrt_close_to_goal);
 
-//        ui->prm_graph->setChecked(prm_graph);
-//        ui->rrt_graph->setChecked(rrt_graph);
-//        ui->non_crossing->setChecked(non_crossing);
+        ui->prm_graph->setChecked(f_prm->show_prm_graph);
+        ui->rrt_graph->setChecked(f_prm->show_rrt_graph);
 
-//        ui->ompl->setChecked(ompl);
+        int old_seed = ui->seed->value();
+        if (f_prm->seed != old_seed) {
+            f_prm->seed = old_seed;
+            ui->seed->setValue(f_prm->seed);
+            srand(f_prm->seed);
+        }
 
-//        int old_seed = ui->random->value();
-//        if (seed != old_seed) {
-//            seed = old_seed;
-//            ui->random->setValue(seed);
-//            srand(seed);
-//        }
-
-//        ui->timeout->setValue(timeout);
-//    }
+        ui->timeout->setValue(f_prm->timeout);
+    }
 
     f_prm->show_anim = true;
     f_prm->pause_anim = false;
@@ -282,7 +240,7 @@ void MainWindow::reportTime(int run) {
     time_info.append(tmp_buff);
     sprintf(tmp_buff, "Elapsed CPU time:\n%lf (ms)\n", f_prm->elapsed_CPU_time);
     time_info.append(tmp_buff);
-    ui->textOutputTime->append(QString::fromStdString(time_info));
+    ui->text_output_time->append(QString::fromStdString(time_info));
 }
 
 void MainWindow::on_prm_clicked() {
@@ -293,11 +251,11 @@ void MainWindow::on_rrt_clicked() {
     f_prm->method = "rrt";
 }
 
-void MainWindow::on_toggle_clicked() {
+void MainWindow::on_toggle_prm_clicked() {
     f_prm->method = "toggle";
 }
 
-void MainWindow::on_lazytoggle_clicked() {
+void MainWindow::on_lazy_toggle_prm_clicked() {
     f_prm->method = "lazytoggle";
 }
 
@@ -346,15 +304,15 @@ void MainWindow::on_replay_clicked() {
     this->update();
 }
 
-void MainWindow::on_trace_clicked() {
+void MainWindow::on_show_trace_clicked() {
     f_prm->show_trace = !f_prm->show_trace;
     this->update();
 }
-void MainWindow::on_showFilledObstacles_clicked() {
+void MainWindow::on_show_filled_obstacles_clicked() {
     f_prm->show_filled_obstacles = !f_prm->show_filled_obstacles;
     this->update();
 }
 
-void MainWindow::on_animationSpeed_valueChanged(int value) {
+void MainWindow::on_animation_speed_valueChanged(int value) {
     f_prm->animation_speed = value;
 }

@@ -49,8 +49,8 @@ private slots:
 
     void on_prm_clicked();
     void on_rrt_clicked();
-    void on_toggle_clicked();
-    void on_lazytoggle_clicked();
+    void on_toggle_prm_clicked();
+    void on_lazy_toggle_prm_clicked();
 
     void on_prm_graph_clicked();
     void on_prm_graph_mixed_clicked();
@@ -63,10 +63,10 @@ private slots:
     void on_pause_clicked();
     void on_replay_clicked();
 
-    void on_trace_clicked();
-    void on_showFilledObstacles_clicked();
+    void on_show_trace_clicked();
+    void on_show_filled_obstacles_clicked();
 
-    void on_animationSpeed_valueChanged(int value);
+    void on_animation_speed_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;
