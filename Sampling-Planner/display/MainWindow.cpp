@@ -274,7 +274,7 @@ void MainWindow::on_run_clicked() {
 }
 
 void MainWindow::reportTime(int run) {
-    string time_info;
+    std::string time_info;
     char tmp_buff[200];
     sprintf(tmp_buff, "Run #%d\n", run);
     time_info.append(tmp_buff);
