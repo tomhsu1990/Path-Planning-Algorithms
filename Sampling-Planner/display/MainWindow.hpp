@@ -48,9 +48,10 @@ private slots:
     void on_exit_clicked();
 
     void on_prm_clicked();
-    void on_rrt_clicked();
+    void on_lazy_prm_clicked();
     void on_toggle_prm_clicked();
     void on_lazy_toggle_prm_clicked();
+    void on_rrt_clicked();
 
     void on_prm_graph_clicked();
     void on_prm_graph_mixed_clicked();

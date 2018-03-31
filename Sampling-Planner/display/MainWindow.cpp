@@ -46,6 +46,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     if (f_prm->method.compare("prm") || f_prm->method.compare("PRM") || f_prm->method.compare("Prm")) {
         ui->prm->setChecked(true);
     }
+    else if (f_prm->method.compare("lazyprm") || f_prm->method.compare("LAZYPRM")  || f_prm->method.compare("LazyPRM") || f_prm->method.compare("LazyPrm")) {
+        ui->lazy_prm->setChecked(true);
+    }
     else if (f_prm->method.compare("rrt") || f_prm->method.compare("RRT") || f_prm->method.compare("Rrt")) {
         ui->rrt->setChecked(true);
     }
@@ -197,6 +200,9 @@ void MainWindow::on_run_clicked() {
         if (f_prm->method.compare("prm") || f_prm->method.compare("PRM") || f_prm->method.compare("Prm")) {
             ui->prm->setChecked(true);
         }
+        else if (f_prm->method.compare("lazyprm") || f_prm->method.compare("LAZYPRM")  || f_prm->method.compare("LazyPRM") || f_prm->method.compare("LazyPrm")) {
+            ui->lazy_prm->setChecked(true);
+        }
         else if (f_prm->method.compare("rrt") || f_prm->method.compare("RRT") || f_prm->method.compare("Rrt")) {
             ui->rrt->setChecked(true);
         }
@@ -247,8 +253,8 @@ void MainWindow::on_prm_clicked() {
     f_prm->method = "prm";
 }
 
-void MainWindow::on_rrt_clicked() {
-    f_prm->method = "rrt";
+void MainWindow::on_lazy_prm_clicked() {
+    f_prm->method = "lazyprm";
 }
 
 void MainWindow::on_toggle_prm_clicked() {
@@ -257,6 +263,10 @@ void MainWindow::on_toggle_prm_clicked() {
 
 void MainWindow::on_lazy_toggle_prm_clicked() {
     f_prm->method = "lazytoggle";
+}
+
+void MainWindow::on_rrt_clicked() {
+    f_prm->method = "rrt";
 }
 
 void MainWindow::on_prm_graph_clicked(){
