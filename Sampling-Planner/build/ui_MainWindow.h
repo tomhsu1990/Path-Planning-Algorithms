@@ -43,44 +43,45 @@ public:
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
-    QLineEdit *inputFile;
+    QLineEdit *input_file;
     QLabel *label_2;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
     QLabel *label_3;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_4;
-    QDoubleSpinBox *aX;
+    QDoubleSpinBox *start_x;
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_5;
-    QDoubleSpinBox *aY;
+    QDoubleSpinBox *start_y;
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *verticalLayout_2;
     QLabel *label_8;
     QHBoxLayout *horizontalLayout_6;
     QLabel *label_9;
-    QDoubleSpinBox *bX;
+    QDoubleSpinBox *goal_x;
     QHBoxLayout *horizontalLayout_7;
     QLabel *label_10;
-    QDoubleSpinBox *bY;
+    QDoubleSpinBox *goal_y;
     QWidget *verticalLayoutWidget_3;
     QVBoxLayout *verticalLayout_3;
     QLabel *label_13;
     QHBoxLayout *horizontalLayout_11;
     QLabel *label_15;
-    QLineEdit *inputFile_2;
+    QLineEdit *robot_name;
     QHBoxLayout *horizontalLayout_10;
     QLabel *label_14;
-    QDoubleSpinBox *l1;
+    QDoubleSpinBox *R;
     QWidget *horizontalLayoutWidget_9;
     QHBoxLayout *horizontalLayout_13;
     QLabel *label_17;
-    QSpinBox *random;
+    QSpinBox *seed;
     QWidget *verticalLayoutWidget_4;
     QVBoxLayout *verticalLayout_4;
     QRadioButton *prm;
-    QRadioButton *toggle;
-    QRadioButton *lazytoggle;
+    QRadioButton *lazy_prm;
+    QRadioButton *toggle_prm;
+    QRadioButton *lazy_toggle_prm;
     QRadioButton *rrt;
     QPushButton *exit;
     QFrame *line;
@@ -92,11 +93,11 @@ public:
     QWidget *verticalLayoutWidget_6;
     QVBoxLayout *verticalLayout_6;
     QLabel *label_18;
-    QSlider *animationSpeed;
+    QSlider *animation_speed;
     QWidget *horizontalLayoutWidget_2;
     QHBoxLayout *horizontalLayout_16;
     QLabel *label_20;
-    QComboBox *comboBox;
+    QComboBox *example_list;
     QPushButton *pause;
     QPushButton *replay;
     QWidget *verticalLayoutWidget_5;
@@ -126,7 +127,7 @@ public:
     QDoubleSpinBox *max_sample;
     QCheckBox *prm_graph;
     QCheckBox *rrt_graph;
-    QTextBrowser *textOutputTime;
+    QTextBrowser *text_output_time;
     QCheckBox *prm_graph_free;
     QCheckBox *prm_graph_obst;
     QWidget *layoutWidget_3;
@@ -135,8 +136,8 @@ public:
     QDoubleSpinBox *timeout;
     QLabel *label_33;
     QCheckBox *prm_graph_edge;
-    QPushButton *trace;
-    QPushButton *showFilledObstacles;
+    QPushButton *show_trace;
+    QPushButton *show_filled_obstacles;
     QCheckBox *prm_graph_mixed;
     QMenuBar *menuBar;
 
@@ -167,10 +168,10 @@ public:
 
         horizontalLayout->addWidget(label);
 
-        inputFile = new QLineEdit(horizontalLayoutWidget);
-        inputFile->setObjectName(QStringLiteral("inputFile"));
+        input_file = new QLineEdit(horizontalLayoutWidget);
+        input_file->setObjectName(QStringLiteral("input_file"));
 
-        horizontalLayout->addWidget(inputFile);
+        horizontalLayout->addWidget(input_file);
 
         label_2 = new QLabel(horizontalLayoutWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
@@ -198,12 +199,12 @@ public:
 
         horizontalLayout_2->addWidget(label_4);
 
-        aX = new QDoubleSpinBox(verticalLayoutWidget);
-        aX->setObjectName(QStringLiteral("aX"));
-        aX->setDecimals(1);
-        aX->setMaximum(1e+08);
+        start_x = new QDoubleSpinBox(verticalLayoutWidget);
+        start_x->setObjectName(QStringLiteral("start_x"));
+        start_x->setDecimals(1);
+        start_x->setMaximum(1e+08);
 
-        horizontalLayout_2->addWidget(aX);
+        horizontalLayout_2->addWidget(start_x);
 
 
         verticalLayout->addLayout(horizontalLayout_2);
@@ -216,12 +217,12 @@ public:
 
         horizontalLayout_3->addWidget(label_5);
 
-        aY = new QDoubleSpinBox(verticalLayoutWidget);
-        aY->setObjectName(QStringLiteral("aY"));
-        aY->setDecimals(1);
-        aY->setMaximum(1e+08);
+        start_y = new QDoubleSpinBox(verticalLayoutWidget);
+        start_y->setObjectName(QStringLiteral("start_y"));
+        start_y->setDecimals(1);
+        start_y->setMaximum(1e+08);
 
-        horizontalLayout_3->addWidget(aY);
+        horizontalLayout_3->addWidget(start_y);
 
 
         verticalLayout->addLayout(horizontalLayout_3);
@@ -247,12 +248,12 @@ public:
 
         horizontalLayout_6->addWidget(label_9);
 
-        bX = new QDoubleSpinBox(verticalLayoutWidget_2);
-        bX->setObjectName(QStringLiteral("bX"));
-        bX->setDecimals(1);
-        bX->setMaximum(1e+08);
+        goal_x = new QDoubleSpinBox(verticalLayoutWidget_2);
+        goal_x->setObjectName(QStringLiteral("goal_x"));
+        goal_x->setDecimals(1);
+        goal_x->setMaximum(1e+08);
 
-        horizontalLayout_6->addWidget(bX);
+        horizontalLayout_6->addWidget(goal_x);
 
 
         verticalLayout_2->addLayout(horizontalLayout_6);
@@ -265,12 +266,12 @@ public:
 
         horizontalLayout_7->addWidget(label_10);
 
-        bY = new QDoubleSpinBox(verticalLayoutWidget_2);
-        bY->setObjectName(QStringLiteral("bY"));
-        bY->setDecimals(1);
-        bY->setMaximum(1e+08);
+        goal_y = new QDoubleSpinBox(verticalLayoutWidget_2);
+        goal_y->setObjectName(QStringLiteral("goal_y"));
+        goal_y->setDecimals(1);
+        goal_y->setMaximum(1e+08);
 
-        horizontalLayout_7->addWidget(bY);
+        horizontalLayout_7->addWidget(goal_y);
 
 
         verticalLayout_2->addLayout(horizontalLayout_7);
@@ -296,10 +297,10 @@ public:
 
         horizontalLayout_11->addWidget(label_15);
 
-        inputFile_2 = new QLineEdit(verticalLayoutWidget_3);
-        inputFile_2->setObjectName(QStringLiteral("inputFile_2"));
+        robot_name = new QLineEdit(verticalLayoutWidget_3);
+        robot_name->setObjectName(QStringLiteral("robot_name"));
 
-        horizontalLayout_11->addWidget(inputFile_2);
+        horizontalLayout_11->addWidget(robot_name);
 
 
         verticalLayout_3->addLayout(horizontalLayout_11);
@@ -312,12 +313,12 @@ public:
 
         horizontalLayout_10->addWidget(label_14);
 
-        l1 = new QDoubleSpinBox(verticalLayoutWidget_3);
-        l1->setObjectName(QStringLiteral("l1"));
-        l1->setDecimals(0);
-        l1->setMaximum(1000);
+        R = new QDoubleSpinBox(verticalLayoutWidget_3);
+        R->setObjectName(QStringLiteral("R"));
+        R->setDecimals(0);
+        R->setMaximum(1000);
 
-        horizontalLayout_10->addWidget(l1);
+        horizontalLayout_10->addWidget(R);
 
 
         verticalLayout_3->addLayout(horizontalLayout_10);
@@ -335,10 +336,10 @@ public:
 
         horizontalLayout_13->addWidget(label_17);
 
-        random = new QSpinBox(horizontalLayoutWidget_9);
-        random->setObjectName(QStringLiteral("random"));
+        seed = new QSpinBox(horizontalLayoutWidget_9);
+        seed->setObjectName(QStringLiteral("seed"));
 
-        horizontalLayout_13->addWidget(random);
+        horizontalLayout_13->addWidget(seed);
 
         verticalLayoutWidget_4 = new QWidget(centralWidget);
         verticalLayoutWidget_4->setObjectName(QStringLiteral("verticalLayoutWidget_4"));
@@ -353,15 +354,20 @@ public:
 
         verticalLayout_4->addWidget(prm);
 
-        toggle = new QRadioButton(verticalLayoutWidget_4);
-        toggle->setObjectName(QStringLiteral("toggle"));
+        lazy_prm = new QRadioButton(verticalLayoutWidget_4);
+        lazy_prm->setObjectName(QStringLiteral("lazy_prm"));
 
-        verticalLayout_4->addWidget(toggle);
+        verticalLayout_4->addWidget(lazy_prm);
 
-        lazytoggle = new QRadioButton(verticalLayoutWidget_4);
-        lazytoggle->setObjectName(QStringLiteral("lazytoggle"));
+        toggle_prm = new QRadioButton(verticalLayoutWidget_4);
+        toggle_prm->setObjectName(QStringLiteral("toggle_prm"));
 
-        verticalLayout_4->addWidget(lazytoggle);
+        verticalLayout_4->addWidget(toggle_prm);
+
+        lazy_toggle_prm = new QRadioButton(verticalLayoutWidget_4);
+        lazy_toggle_prm->setObjectName(QStringLiteral("lazy_toggle_prm"));
+
+        verticalLayout_4->addWidget(lazy_toggle_prm);
 
         rrt = new QRadioButton(verticalLayoutWidget_4);
         rrt->setObjectName(QStringLiteral("rrt"));
@@ -397,7 +403,7 @@ public:
         line_4->setFrameShadow(QFrame::Sunken);
         openGLWidget = new Display(centralWidget);
         openGLWidget->setObjectName(QStringLiteral("openGLWidget"));
-        openGLWidget->setGeometry(QRect(30, 10, 512, 512));
+        openGLWidget->setGeometry(QRect(10, 10, 512, 512));
         openGLWidget->setMaximumSize(QSize(512, 512));
         show = new QPushButton(centralWidget);
         show->setObjectName(QStringLiteral("show"));
@@ -415,13 +421,13 @@ public:
 
         verticalLayout_6->addWidget(label_18);
 
-        animationSpeed = new QSlider(verticalLayoutWidget_6);
-        animationSpeed->setObjectName(QStringLiteral("animationSpeed"));
-        animationSpeed->setValue(90);
-        animationSpeed->setSliderPosition(90);
-        animationSpeed->setOrientation(Qt::Horizontal);
+        animation_speed = new QSlider(verticalLayoutWidget_6);
+        animation_speed->setObjectName(QStringLiteral("animation_speed"));
+        animation_speed->setValue(90);
+        animation_speed->setSliderPosition(90);
+        animation_speed->setOrientation(Qt::Horizontal);
 
-        verticalLayout_6->addWidget(animationSpeed);
+        verticalLayout_6->addWidget(animation_speed);
 
         horizontalLayoutWidget_2 = new QWidget(centralWidget);
         horizontalLayoutWidget_2->setObjectName(QStringLiteral("horizontalLayoutWidget_2"));
@@ -441,10 +447,10 @@ public:
 
         horizontalLayout_16->addWidget(label_20);
 
-        comboBox = new QComboBox(horizontalLayoutWidget_2);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
+        example_list = new QComboBox(horizontalLayoutWidget_2);
+        example_list->setObjectName(QStringLiteral("example_list"));
 
-        horizontalLayout_16->addWidget(comboBox);
+        horizontalLayout_16->addWidget(example_list);
 
         pause = new QPushButton(centralWidget);
         pause->setObjectName(QStringLiteral("pause"));
@@ -611,9 +617,9 @@ public:
         rrt_graph = new QCheckBox(centralWidget);
         rrt_graph->setObjectName(QStringLiteral("rrt_graph"));
         rrt_graph->setGeometry(QRect(560, 490, 111, 20));
-        textOutputTime = new QTextBrowser(centralWidget);
-        textOutputTime->setObjectName(QStringLiteral("textOutputTime"));
-        textOutputTime->setGeometry(QRect(550, 10, 171, 271));
+        text_output_time = new QTextBrowser(centralWidget);
+        text_output_time->setObjectName(QStringLiteral("text_output_time"));
+        text_output_time->setGeometry(QRect(540, 10, 181, 271));
         prm_graph_free = new QCheckBox(centralWidget);
         prm_graph_free->setObjectName(QStringLiteral("prm_graph_free"));
         prm_graph_free->setGeometry(QRect(650, 430, 61, 20));
@@ -622,7 +628,7 @@ public:
         prm_graph_obst->setGeometry(QRect(650, 450, 61, 20));
         layoutWidget_3 = new QWidget(centralWidget);
         layoutWidget_3->setObjectName(QStringLiteral("layoutWidget_3"));
-        layoutWidget_3->setGeometry(QRect(560, 360, 188, 36));
+        layoutWidget_3->setGeometry(QRect(530, 360, 188, 36));
         horizontalLayout_23 = new QHBoxLayout(layoutWidget_3);
         horizontalLayout_23->setSpacing(6);
         horizontalLayout_23->setContentsMargins(11, 11, 11, 11);
@@ -652,12 +658,12 @@ public:
         prm_graph_edge = new QCheckBox(centralWidget);
         prm_graph_edge->setObjectName(QStringLiteral("prm_graph_edge"));
         prm_graph_edge->setGeometry(QRect(650, 470, 61, 20));
-        trace = new QPushButton(centralWidget);
-        trace->setObjectName(QStringLiteral("trace"));
-        trace->setGeometry(QRect(670, 320, 61, 32));
-        showFilledObstacles = new QPushButton(centralWidget);
-        showFilledObstacles->setObjectName(QStringLiteral("showFilledObstacles"));
-        showFilledObstacles->setGeometry(QRect(550, 320, 121, 32));
+        show_trace = new QPushButton(centralWidget);
+        show_trace->setObjectName(QStringLiteral("show_trace"));
+        show_trace->setGeometry(QRect(650, 320, 61, 32));
+        show_filled_obstacles = new QPushButton(centralWidget);
+        show_filled_obstacles->setObjectName(QStringLiteral("show_filled_obstacles"));
+        show_filled_obstacles->setGeometry(QRect(530, 320, 121, 32));
         prm_graph_mixed = new QCheckBox(centralWidget);
         prm_graph_mixed->setObjectName(QStringLiteral("prm_graph_mixed"));
         prm_graph_mixed->setGeometry(QRect(650, 410, 61, 20));
@@ -689,8 +695,9 @@ public:
         label_14->setText(QApplication::translate("MainWindow", "<html><head/><body><p>R:</p></body></html>", 0));
         label_17->setText(QApplication::translate("MainWindow", "<html><head/><body><p>Seed:</p></body></html>", 0));
         prm->setText(QApplication::translate("MainWindow", "PRM", 0));
-        toggle->setText(QApplication::translate("MainWindow", "Toggle PRM", 0));
-        lazytoggle->setText(QApplication::translate("MainWindow", "Lazy Toggle PRM", 0));
+        lazy_prm->setText(QApplication::translate("MainWindow", "Lazy PRM", 0));
+        toggle_prm->setText(QApplication::translate("MainWindow", "Toggle PRM", 0));
+        lazy_toggle_prm->setText(QApplication::translate("MainWindow", "Lazy Toggle PRM", 0));
         rrt->setText(QApplication::translate("MainWindow", "RRT", 0));
         exit->setText(QApplication::translate("MainWindow", "Exit", 0));
         show->setText(QApplication::translate("MainWindow", "Show", 0));
@@ -713,8 +720,8 @@ public:
         label_31->setText(QApplication::translate("MainWindow", "<html><head/><body><p>timeout:</p></body></html>", 0));
         label_33->setText(QApplication::translate("MainWindow", "<html><head/><body><p>sec</p></body></html>", 0));
         prm_graph_edge->setText(QApplication::translate("MainWindow", "edge", 0));
-        trace->setText(QApplication::translate("MainWindow", "trace", 0));
-        showFilledObstacles->setText(QApplication::translate("MainWindow", "show obstacles", 0));
+        show_trace->setText(QApplication::translate("MainWindow", "trace", 0));
+        show_filled_obstacles->setText(QApplication::translate("MainWindow", "show obstacles", 0));
         prm_graph_mixed->setText(QApplication::translate("MainWindow", "mixed", 0));
     } // retranslateUi
 
