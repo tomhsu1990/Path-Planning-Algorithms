@@ -288,6 +288,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QRadioButton" name="lazy_prm">
+       <property name="text">
+        <string>Lazy PRM</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QRadioButton" name="toggle_prm">
        <property name="text">
         <string>Toggle PRM</string>
@@ -393,7 +400,7 @@
    <widget class="Display" name="openGLWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>10</x>
       <y>10</y>
       <width>512</width>
       <height>512</height>
@@ -730,9 +737,9 @@
    <widget class="QTextBrowser" name="text_output_time">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>540</x>
       <y>10</y>
-      <width>171</width>
+      <width>181</width>
       <height>271</height>
      </rect>
     </property>
@@ -766,7 +773,7 @@
    <widget class="QWidget" name="layoutWidget_3">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>530</x>
       <y>360</y>
       <width>188</width>
       <height>36</height>
@@ -827,7 +834,7 @@
    <widget class="QPushButton" name="show_trace">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>650</x>
       <y>320</y>
       <width>61</width>
       <height>32</height>
@@ -840,7 +847,7 @@
    <widget class="QPushButton" name="show_filled_obstacles">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>530</x>
       <y>320</y>
       <width>121</width>
       <height>32</height>
