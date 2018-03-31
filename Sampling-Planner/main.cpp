@@ -74,7 +74,7 @@ void run () {
     f_prm->no_path = !planner->findPath();
     f_prm->elapsed_time = t.getElapsedMilliseconds();
     f_prm->elapsed_CPU_time = t.getElapsedCPUMilliseconds();
-    window->reportTime(run_count);
+    window->reportTime(run_count-1);
 
     if (!f_prm->no_path) {
         std::vector<Config> path = planner->getPath();

@@ -88,7 +88,7 @@ bool Planner::isValid (const Config& c1, const Config& c2) {
     Config step = dir/steps;
     // this linear check needs to be improved !!!
     // modify it into binary check...
-    for (int i=1;i<=steps;++i) {
+    for (double i=1;i<=steps;++i) {
         Config now_cfg = c1 + step*i;
         if (!this->isValid(now_cfg)) {
             return false;

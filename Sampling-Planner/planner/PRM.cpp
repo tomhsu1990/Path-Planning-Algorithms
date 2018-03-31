@@ -21,7 +21,6 @@ PRM::~PRM() {
 }
 
 void PRM::addPoint (Config cfg, UndirectedGraph &m_graph, std::shared_ptr< flann::Index< flann::L2<double> > > &index_) {
-
     vertex_descriptor v = boost::add_vertex(m_graph);
     m_graph[v].cfg = cfg;
 
@@ -112,13 +111,14 @@ void PRM::connect () {
         std::vector< std::vector<int> > query_match_indices;
         std::vector< std::vector<double> > query_distances;
         int num_neighbors_found = index_[FREE]->knnSearch(
-                                flann_query, query_match_indices, query_distances, m_k_closest,
+                                flann_query, query_match_indices, query_distances, m_k_closest+1,
                                 flann::SearchParams(flann::FLANN_CHECKS_UNLIMITED) /* no approx */);
-        for (int j=0;j<num_neighbors_found;++j) {
-            if (boost::edge(*nxt, query_match_indices[0][j], m_graph[FREE]).second) continue;
+        for (int j=1;j<num_neighbors_found;++j) {
+            vertex_descriptor tmp = boost::vertex(query_match_indices[0][j], m_graph[FREE]);
+            if (boost::edge(*nxt, tmp, m_graph[FREE]).second) continue;
             Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
-            if (isValid(cfg1,cfg2) || isValid(cfg2,cfg1)) {
-                boost::add_edge(*nxt, query_match_indices[0][j], cfg1.distance(cfg2), m_graph[FREE]);
+            if (isValid(cfg1,cfg2) && cfg1.dim_r!=0 || isValid(cfg2,cfg1)) {
+                boost::add_edge(*nxt, tmp, cfg1.distance(cfg2), m_graph[FREE]);
             }
         }
     }
@@ -128,7 +128,7 @@ void PRM::connect () {
 int PRM::connect2Map (const Config& cfg, std::vector<int> &cc) {
     for (int i=0;i<cc.size();++i) {
         Config cfg2 = m_graph[FREE][cc[i]].cfg;
-        if (isValid(cfg,cfg2) || isValid(cfg2,cfg))
+        if (isValid(cfg,cfg2) && cfg.dim_r!=0 || isValid(cfg2,cfg))
             return cc[i];
     }
     return -1;

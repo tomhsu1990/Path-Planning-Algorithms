@@ -41,7 +41,6 @@ typedef boost::graph_traits<UndirectedGraph>::edge_iterator edge_iterator;
 
 class Planner {
 public:
-
     //workspace, translational resolution, rotational resolution...
     Planner(const Env &env, double tr, double rr, const Config& start, const Config& goal);
 

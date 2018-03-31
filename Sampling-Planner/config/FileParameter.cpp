@@ -23,8 +23,8 @@ FileParameter::FileParameter(){
     env.dim = 2;
     for(int i=0;i<env.dim;++i)
         env.space.push_back(512);
-    env_TR = 0.1;
-    env_RR = 1;
+    env_TR = 0.01;
+    env_RR = 0.1;
 
     method = "prm";
     sample_size = 100;
