@@ -311,7 +311,7 @@ void Display::drawTree(RRT* planner, const RRT_Tree& tree){
     glEnd();
 }
 
-void Display::drawGraph(PRM* planner, const UndirectedGraph* graph, std::vector<float> vert_clr, std::vector<float> edge_clr) {
+void Display::drawGraph(PRM* planner, const UndirectedGraph& graph, std::vector<float> vert_clr, std::vector<float> edge_clr) {
 
     glDisable(GL_LIGHTING);
 
@@ -322,24 +322,24 @@ void Display::drawGraph(PRM* planner, const UndirectedGraph* graph, std::vector<
     glPointSize(2);
     glBegin(GL_POINTS);
     vertex_iterator u, v, nxt;
-    boost::tie(u, v) = boost::vertices(*graph);
+    boost::tie(u, v) = boost::vertices(graph);
     for (nxt=u; nxt!=v; ++nxt) {
-        Config cfg = planner->toPhysical((*graph)[*nxt].cfg);
+        Config cfg = planner->toPhysical(graph[*nxt].cfg);
         glVertex2d(cfg.t[0], cfg.t[1]);
     }
     glEnd();
 
     ///////////////////////////////////////////////////////////////////////////
     //draw edges
-    std::pair<edge_iterator, edge_iterator> ei = boost::edges(*graph);
+    std::pair<edge_iterator, edge_iterator> ei = boost::edges(graph);
     glColor3f(edge_clr[0], edge_clr[1], edge_clr[2]);
     glPushAttrib(GL_CURRENT_BIT);
     glBegin(GL_LINES);
     for (edge_iterator it=ei.first; it!=ei.second; ++it) {
-        unsigned src = boost::source(*it,*graph);
-        unsigned tgt = boost::target(*it,*graph);
-        Config cfg1 = planner->toPhysical((*graph)[src].cfg);
-        Config cfg2 = planner->toPhysical((*graph)[tgt].cfg);
+        unsigned src = boost::source(*it,graph);
+        unsigned tgt = boost::target(*it,graph);
+        Config cfg1 = planner->toPhysical(graph[src].cfg);
+        Config cfg2 = planner->toPhysical(graph[tgt].cfg);
         glVertex2d(cfg1.t[0], cfg1.t[1]);
         glVertex2d(cfg2.t[0], cfg2.t[1]);
     }

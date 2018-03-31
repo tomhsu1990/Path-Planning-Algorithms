@@ -57,7 +57,7 @@ private:
     void drawPolygons(std::vector<Polygon2d>& objs);
 
     void drawTree(RRT* planner, const RRT_Tree& tree);
-    void drawGraph(PRM* planner, const UndirectedGraph* graph, std::vector<float> vert_clr, std::vector<float> edge_clr);
+    void drawGraph(PRM* planner, const UndirectedGraph& graph, std::vector<float> vert_clr, std::vector<float> edge_clr);
 };
 
 #endif // Display_H_

@@ -84,8 +84,8 @@ protected:
 
     bool m_found;
 	
-    double env_TR;				// TRANSLATIONAL RESOLUTION
-    double env_RR;				// Rotational RESOLUTION (deg)
+    double env_TR; // Translational RESOLUTION
+    double env_RR; // Rotational RESOLUTION (deg)
 
 	PATH m_path;
 };
