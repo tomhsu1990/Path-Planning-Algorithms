@@ -9,7 +9,7 @@ core \
 gui \
 opengl
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
 TARGET = sampling-planner
 
@@ -26,6 +26,9 @@ SOURCES += \
     planner/Planner.cpp \
     planner/RRT.cpp \
     planner/PRM.cpp \
+    planner/LazyPRM.cpp \
+    planner/TogglePRM.cpp \
+    planner/LazyTogglePRM.cpp \
     display/MainWindow.cpp \
     display/Display.cpp \
     utils/Triangulate.cpp
@@ -39,6 +42,9 @@ HEADERS  += \
     planner/Planner.hpp \
     planner/RRT.hpp \
     planner/PRM.hpp \
+    planner/LazyPRM.hpp \
+    planner/TogglePRM.hpp \
+    planner/LazyTogglePRM.hpp \
     display/MainWindow.hpp \
     display/Display.hpp \
     utils/Triangulate.hpp \

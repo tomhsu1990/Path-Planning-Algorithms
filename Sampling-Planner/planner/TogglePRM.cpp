@@ -83,9 +83,9 @@ void TogglePRM::toggleConnect () {
 
         // using free graph
         int num_neighbors_found = index_[FREE]->knnSearch(
-                                flann_query, query_match_indices, query_distances, m_k_closest,
+                                flann_query, query_match_indices, query_distances, m_k_closest+1,
                                 flann::SearchParams(flann::FLANN_CHECKS_UNLIMITED) /* no approx */);
-        for (int j=0;j<num_neighbors_found;++j) {
+        for (int j=1;j<num_neighbors_found;++j) {
             if (boost::edge(*nxt, query_match_indices[0][j], m_graph[FREE]).second) continue;
             Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
             Config cfg3, cfg4;
@@ -108,14 +108,11 @@ void TogglePRM::toggleConnect () {
             }
         }
 
-//        std::vector< std::vector<int> > query_match_indices_diff;
-//        std::vector< std::vector<double> > query_distances_diff;
-
         // using obst graph
         num_neighbors_found = index_[OBST]->knnSearch(
-                            flann_query, query_match_indices, query_distances, m_k_closest,
+                            flann_query, query_match_indices, query_distances, m_k_closest+1,
                             flann::SearchParams(flann::FLANN_CHECKS_UNLIMITED) /* no approx */);
-        for (int j=0;j<num_neighbors_found;++j) {
+        for (int j=1;j<num_neighbors_found;++j) {
             Config cfg2 = m_graph[OBST][query_match_indices[0][j]].cfg;
             Config cfg3;
             if (!isValid(cfg1,cfg2,cfg3) && !(cfg1 == cfg3)) {

@@ -73,9 +73,9 @@ void LazyPRM::lazyConnect () {
         std::vector< std::vector<int> > query_match_indices;
         std::vector< std::vector<double> > query_distances;
         int num_neighbors_found = index_[FREE]->knnSearch(
-                                flann_query, query_match_indices, query_distances, m_k_closest,
+                                flann_query, query_match_indices, query_distances, m_k_closest+1,
                                 flann::SearchParams(flann::FLANN_CHECKS_UNLIMITED) /* no approx */);
-        for (int j=0;j<num_neighbors_found;++j) {
+        for (int j=1;j<num_neighbors_found;++j) {
             Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
             boost::add_edge(*nxt, query_match_indices[0][j], cfg1.distance(cfg2), m_graph[FREE]);
         }
