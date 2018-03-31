@@ -10,7 +10,7 @@
 
 LazyPRM::LazyPRM(const Env &env, double tr, double rr, const Config& start, const Config& goal,
          unsigned int n_sample, unsigned int k_connection)
-: PRM(env,tr,rr,start,goal,n_sample, k_connection) {
+: PRM(env,tr,rr,start,goal,n_sample,k_connection) {
 }
 
 LazyPRM::~LazyPRM()

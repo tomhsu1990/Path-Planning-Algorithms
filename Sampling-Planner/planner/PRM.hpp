@@ -44,12 +44,19 @@ protected:
     bool findPathV1V2 (int v1, int v2, PATH& path);
 
     UndirectedGraph m_graph[2];
-    std::shared_ptr< flann::Index< flann::L2<double> > > index_[2];
+    std::shared_ptr<flann::Index< flann::L2<double>>> index_[2];
 
     unsigned int m_n_sample;
     unsigned int m_k_closest;
 
 private:
+    void clean () {
+        for (int i=0;i<2;++i) {
+            index_[i].reset();
+            index_[i] = nullptr;
+            m_graph[i].clear();
+        }
+    }
     void addPoint (Config cfg, UndirectedGraph &m_graph, std::shared_ptr< flann::Index< flann::L2<double> > > &index_);
 };
 

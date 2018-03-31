@@ -14,15 +14,11 @@ RRT::RRT (const Env &env, double tr, double rr, const Config& start, const Confi
     m_expand_step=expand_step;
     m_goal_bias=bias;
     m_close_to_goal=close_to_goal;
+    clean();
 }
 
 RRT::~RRT () {
-    if (index_ != nullptr) {
-        for (size_t ii = 0; ii < index_->size(); ++ii) {
-            double* point = index_->getPoint(ii);
-            delete[] point;
-        }
-    }
+    clean();
 }
 
 void RRT::addPoint (RRT_NODE* node) {

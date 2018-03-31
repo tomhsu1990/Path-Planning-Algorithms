@@ -25,7 +25,7 @@
 struct RRT_NODE {
     Config cfg;
     RRT_NODE* parent;
-    RRT_NODE(const Config& c, RRT_NODE* parent = NULL) {
+    RRT_NODE(const Config& c, RRT_NODE* parent = nullptr) {
         this->cfg = c;
         this->parent = parent;
     }
@@ -56,6 +56,15 @@ protected:
     float m_close_to_goal;
 
 private:
+    void clean () {
+        if (index_ != nullptr) {
+            for (size_t ii = 0; ii < index_->size(); ++ii) {
+                double* point = index_->getPoint(ii);
+                delete[] point;
+            }
+        }
+    }
+
     void addPoint (RRT_NODE* node) ;
 };
 

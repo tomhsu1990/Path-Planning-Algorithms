@@ -27,7 +27,6 @@
 
 // Create a struct to hold properties for each vertex
 struct VertexProperties {
-    int idx;
     Config cfg;
 };
 // Create a struct to hold properties for each edge

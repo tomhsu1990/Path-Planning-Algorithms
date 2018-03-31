@@ -30,7 +30,6 @@ public:
     virtual bool findPath ();
 
 protected:
-
     virtual void toggleConnect();
 
     int connect2Map (const Config& cfg, std::vector<int> &cc);

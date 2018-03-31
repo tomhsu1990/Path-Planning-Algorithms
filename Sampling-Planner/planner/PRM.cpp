@@ -13,24 +13,23 @@ PRM::PRM(const Env &env, double tr, double rr, const Config& start, const Config
 : Planner(env,tr,rr,start,goal) {
     m_n_sample=n_sample;
     m_k_closest=k_connection;
-    m_graph[0].clear();
-    m_graph[1].clear();
+    clean();
 }
 
-PRM::~PRM()
-{}
+PRM::~PRM() {
+    clean();
+}
 
 void PRM::addPoint (Config cfg, UndirectedGraph &m_graph, std::shared_ptr< flann::Index< flann::L2<double> > > &index_) {
 
     vertex_descriptor v = boost::add_vertex(m_graph);
-    m_graph[v].idx = boost::num_vertices(m_graph)-1;
     m_graph[v].cfg = cfg;
 
     flann::Matrix<double> flann_point(new double[m_env.dim], 1, m_env.dim);
     for (int i=0;i<m_env.dim;++i) {
         flann_point[0][i] = cfg.t[i];
     }
-    if (index_ == NULL) {
+    if (index_ == nullptr) {
         index_.reset(new flann::Index< flann::L2<double> >(
                          flann_point, flann::KDTreeIndexParams(1)));
         index_->buildIndex();
@@ -116,8 +115,8 @@ void PRM::connect () {
                                 flann_query, query_match_indices, query_distances, m_k_closest,
                                 flann::SearchParams(flann::FLANN_CHECKS_UNLIMITED) /* no approx */);
         for (int j=0;j<num_neighbors_found;++j) {
-            Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
             if (boost::edge(*nxt, query_match_indices[0][j], m_graph[FREE]).second) continue;
+            Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
             if (isValid(cfg1,cfg2) || isValid(cfg2,cfg1)) {
                 boost::add_edge(*nxt, query_match_indices[0][j], cfg1.distance(cfg2), m_graph[FREE]);
             }
