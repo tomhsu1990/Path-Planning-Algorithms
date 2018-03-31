@@ -26,9 +26,10 @@
 #include "CORE/geom2d/polygon2d.h"
 #include "Config.hpp"
 #include "Robot.hpp"
-#include "planner/Planner.hpp"
 #include "planner/RRT.hpp"
 #include "planner/PRM.hpp"
+#include "planner/LazyPRM.hpp"
+#include "planner/TogglePRM.hpp"
 
 class FileParameter {
 public:

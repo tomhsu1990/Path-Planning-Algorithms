@@ -111,12 +111,12 @@ void FileParameter::parseExampleList () {
 void FileParameter::parseExampleFile () {
     char tmp[256];
     FILE *fptr = fopen(std::string(input_dir+"/"+cfg_name).c_str(), "r");
-    if (fptr == NULL) return ;
+    if (fptr == nullptr) return ;
 
-    while (fgets(tmp, 256, fptr) != NULL){
+    while (fgets(tmp, 256, fptr) != nullptr){
         char *sptr = strtok(tmp, "=: \t\n");
 
-        if (sptr == NULL) {
+        if (sptr == nullptr) {
             continue;
         }
         // comments
@@ -125,15 +125,15 @@ void FileParameter::parseExampleFile () {
         }
 
         if (strcmp(sptr, "dimension") == 0) {
-            sptr = strtok(NULL, "=: #\t");
+            sptr = strtok(nullptr, "=: #\t");
             env.dim = atoi(sptr);
             for (int i=0;i<env.dim;++i) {
-                sptr = strtok(NULL, "=: #\t");
+                sptr = strtok(nullptr, "=: #\t");
                 env.space.push_back(atof(sptr));
             }
-            sptr = strtok(NULL, "=: #\t");
+            sptr = strtok(nullptr, "=: #\t");
             dim_t = atoi(sptr);
-            sptr = strtok(NULL, "=: #\t");
+            sptr = strtok(nullptr, "=: #\t");
             dim_r = atoi(sptr);
             start.init(dim_t, dim_r, false);
             goal.init(dim_t, dim_r, false);
@@ -142,11 +142,11 @@ void FileParameter::parseExampleFile () {
         // start configuration
         if (strcmp(sptr, "start") == 0) {
             for (int i=0;i<dim_t;++i) {
-                sptr = strtok(NULL, "=: #\t(),");
+                sptr = strtok(nullptr, "=: #\t(),");
                 start.t[i] = atof(sptr);
             }
             for (int i=0;i<dim_r;++i) {
-                sptr = strtok(NULL, "=: #\t(),");
+                sptr = strtok(nullptr, "=: #\t(),");
                 start.r[i] = atof(sptr);
             }
         }
@@ -154,131 +154,131 @@ void FileParameter::parseExampleFile () {
         // goal configuration
         if (strcmp(sptr, "goal") == 0) {
             for (int i=0;i<dim_t;++i) {
-                sptr = strtok(NULL, "=: #\t(),");
+                sptr = strtok(nullptr, "=: #\t(),");
                 goal.t[i] = atof(sptr);
             }
             for (int i=0;i<dim_r;++i) {
-                sptr = strtok(NULL, "=: #\t(),");
+                sptr = strtok(nullptr, "=: #\t(),");
                 goal.r[i] = atof(sptr);
             }
         }
 
         // robot
         if (strcmp(sptr, "robot") == 0) {
-            sptr = strtok(NULL, "=: #\t");
+            sptr = strtok(nullptr, "=: #\t");
             robot.name = sptr;
 
             if (robot.name.compare("disc") == 0) {
-                sptr = strtok(NULL, "=: #\t");
+                sptr = strtok(nullptr, "=: #\t");
                 robot.R = atof(sptr);
             }
             if (robot.name.compare("1link") == 0) {
-                sptr = strtok(NULL, "=: #\t");
+                sptr = strtok(nullptr, "=: #\t");
                 robot.L1 = atof(sptr);
-                sptr = strtok(NULL, "=: #\t");
+                sptr = strtok(nullptr, "=: #\t");
                 robot.Thickness = atof(sptr);
             }
             if (robot.name.compare("2links") == 0) {
-                sptr = strtok(NULL, "=: #\t");
+                sptr = strtok(nullptr, "=: #\t");
                 robot.L1 = atof(sptr);
-                sptr = strtok(NULL, "=: #\t");
+                sptr = strtok(nullptr, "=: #\t");
                 robot.L2 = atof(sptr);
-                sptr = strtok(NULL, "=: #\t");
+                sptr = strtok(nullptr, "=: #\t");
                 robot.Thickness = atof(sptr);
             }
         }
 
         if (strcmp(sptr, "input_dir") == 0) {
-            sptr = strtok(NULL, "=: #\t");
+            sptr = strtok(nullptr, "=: #\t");
             input_dir = sptr;
         }
         if (strcmp(sptr, "file_name") == 0) {
-            sptr = strtok(NULL, "=: #\t");
+            sptr = strtok(nullptr, "=: #\t");
             file_name = sptr;
         }
 
         // windows position
         if (strcmp(sptr, "windows_pos") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             window_pos.first = atoi(sptr);
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             window_pos.second = atoi(sptr);
         }
 
         if (strcmp(sptr, "method") == 0) {
-            sptr = strtok(NULL, "=: \t\n");
+            sptr = strtok(nullptr, "=: \t\n");
             method = sptr;
         }
 
         if (strcmp(sptr, "seed") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             seed = atoi(sptr);
         }
         if (strcmp(sptr, "timeout") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             timeout = atof(sptr);
         }
 
         // environment delta
         if (strcmp(sptr, "env_delta") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             env_delta.first = atof(sptr);
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             env_delta.second = atof(sptr);
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             env_scale = atof(sptr);
         }
 
         if (strcmp(sptr, "sample_size") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             sample_size = atoi(sptr);
         }
         if (strcmp(sptr, "max_sample_size") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             max_sample_size = atoi(sptr);
         }
 
         if (strcmp(sptr, "prm_closest_free_k") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             prm_closest_free_k = atoi(sptr);
         }
         if (strcmp(sptr, "prm_closest_free_k") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             prm_closest_free_k = atoi(sptr);
         }
         if (strcmp(sptr, "prm_closest_obst_k") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             prm_closest_obst_k = atoi(sptr);
         }
 
         if (strcmp(sptr, "rrt_step_size") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             rrt_step_size = atof(sptr);
         }
         if (strcmp(sptr, "rrt_bias") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             rrt_bias = atof(sptr);
         }
         if (strcmp(sptr, "rrt_close_to_goal") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             rrt_close_to_goal = atof(sptr);
         }
 
         if (strcmp(sptr, "show_prm_graph") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             show_prm_graph = atoi(sptr);
         }
         if (strcmp(sptr, "show_rrt_graph") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             show_rrt_graph = atoi(sptr);
         }
 
         if (strcmp(sptr, "animation_speed") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             animation_speed = atoi(sptr);
         }
         if (strcmp(sptr, "animation_speed_scale") == 0) {
-            sptr = strtok(NULL, "=: \t");
+            sptr = strtok(nullptr, "=: \t");
             animation_speed_scale = atoi(sptr);
         }
     }
@@ -286,16 +286,24 @@ void FileParameter::parseExampleFile () {
 
 void FileParameter::parseMapFile (Planner **planner) {
 
-    free((*planner));
+    free(*planner); (*planner) = nullptr;
     if (!method.compare("prm") || !method.compare("PRM") || !method.compare("Prm")) {
         (*planner) = new PRM(env, env_TR, env_RR, start, goal,
+                             max_sample_size,prm_closest_free_k);
+    }
+    else if (!method.compare("lazyprm") || !method.compare("LAZYPRM")  || !method.compare("LazyPRM") || !method.compare("LazyPrm")) {
+        (*planner) = new LazyPRM(env, env_TR, env_RR, start, goal,
+                             max_sample_size,prm_closest_free_k);
+    }
+    else if (!method.compare("toggleprm") || !method.compare("TOGGLEPRM") || !method.compare("TogglePRM") || !method.compare("TogglePrm")) {
+        (*planner) = new TogglePRM(env, env_TR, env_RR, start, goal,
                              max_sample_size,prm_closest_free_k);
     }
     else if (!method.compare("rrt") || !method.compare("RRT") || !method.compare("Rrt")) {
         (*planner) = new RRT(env, env_TR, env_RR, start, goal,
                              max_sample_size, rrt_step_size,rrt_bias,rrt_close_to_goal);
     }
-    if ((*planner) == NULL) return;
+    if ((*planner) == nullptr) return;
 
     std::string full_name = input_dir+"/"+file_name;
     std::ifstream fin;
