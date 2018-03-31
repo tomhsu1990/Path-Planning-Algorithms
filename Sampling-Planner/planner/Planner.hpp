@@ -75,6 +75,7 @@ protected:
 
     bool isValid(const Config& cfg);
     bool isValid(const Config& c1, const Config& c2);
+    bool isValid (const Config& c1, const Config& c2, Config& c3);
 
     Config m_start;
     Config m_goal;

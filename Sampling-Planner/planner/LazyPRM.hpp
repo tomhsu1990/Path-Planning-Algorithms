@@ -36,4 +36,4 @@ protected:
     bool findPathV1V2 (int v1, int v2, PATH& path);
 };
 
-#endif // PRM_H_
+#endif // LAZYPRM_H_

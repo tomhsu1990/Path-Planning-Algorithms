@@ -1,60 +1,41 @@
 /*
- *  PRM.cpp
+ *  TogglePRM.cpp
  *
  *  Created on: Mar. 23, 2018
  *      Author: Ching-Hsiang Hsu
  *
  */
 
-#include "PRM.hpp"
+#include "TogglePRM.hpp"
 
-PRM::PRM(const Env &env, double tr, double rr, const Config& start, const Config& goal,
+TogglePRM::TogglePRM(const Env &env, double tr, double rr, const Config& start, const Config& goal,
          unsigned int n_sample, unsigned int k_connection)
-: Planner(env,tr,rr,start,goal), m_graph(NULL) {
-    m_n_sample=n_sample;
-    m_k_closest=k_connection;
-    m_skip_same_cc=true;
-    m_create_good_loops=false;
+: PRM(env,tr,rr,start,goal, n_sample, k_connection) {
 }
 
-PRM::~PRM()
+TogglePRM::~TogglePRM()
 {}
 
-void PRM::addPoint (Config cfg) {
-    vertex_descriptor v = boost::add_vertex(*m_graph);
-    (*m_graph)[v].idx = cfgs.size()-1;
-    (*m_graph)[v].cfg = cfg;
-    cfgs.push_back(v);
-    flann::Matrix<double> flann_point(new double[m_env.dim], 1, m_env.dim);
-    for (int i=0;i<m_env.dim;++i) {
-        flann_point[0][i] = cfg.t[i];
-    }
-    if (index_ == NULL) {
-        index_.reset(new flann::Index< flann::L2<double> >(
-                         flann_point, flann::KDTreeIndexParams(1)));
-        index_->buildIndex();
-        return ;
-    }
-    index_->addPoints(flann_point, 2);
-}
-
-bool PRM::findPath () {
+bool TogglePRM::findPath () {
     if (!isValid(m_start) || !isValid(m_goal)) return false;
 
     sample();
-    connect();
+    toggleConnect();
 
-    std::vector<int> component(boost::num_vertices(*m_graph));
-    int num = boost::connected_components(*m_graph, &component[0]);
-    std::unordered_map<int, std::map<double, int>> CC_start;
-    for (int i=0;i<component.size();++i) {
-        Config cfg = (*m_graph)[cfgs[i]].cfg;
-        CC_start[component[i]].insert({cfg.distance(m_start), i});
+    std::vector<int> component(boost::num_vertices(m_graph[FREE]));
+    int num = boost::connected_components(m_graph[FREE], &component[0]);
+    std::unordered_map<int, std::map<double, int>> CC_start, CC_goal;
+
+
+    vertex_iterator u, v, nxt;
+    boost::tie(u, v) = boost::vertices(m_graph[FREE]);
+    for (nxt=u; nxt!=v; ++nxt) {
+        Config cfg = m_graph[FREE][*nxt].cfg;
+        CC_start[component[*nxt]].insert({cfg.distance(m_start), *nxt});
     }
-    std::unordered_map<int, std::map<double, int>> CC_goal;
-    for (int i=0;i<component.size();++i) {
-        Config cfg = (*m_graph)[cfgs[i]].cfg;
-        CC_goal[component[i]].insert({cfg.distance(m_goal), i});
+    for (nxt=u; nxt!=v; ++nxt) {
+        Config cfg = m_graph[FREE][*nxt].cfg;
+        CC_goal[component[*nxt]].insert({cfg.distance(m_goal), *nxt});
     }
 
     for (auto it=CC_start.begin();it!=CC_start.end();++it) {
@@ -86,69 +67,58 @@ bool PRM::findPath () {
     return false;
 }
 
-void PRM::sample () {
-    m_graph = new UndirectedGraph(0);
-    for (int i=0;i<m_n_sample;++i) {
-        Config cfg = Config::randomCfg(m_start.dim_t, m_start.dim_r);
-        if (!isValid(cfg)) {
-            continue;
-        }
-        addPoint(cfg);
-    }
-}
-
-void PRM::connect () {
-    //for each cfg find k closest
-    for (int i=0;i<cfgs.size();++i) {
-        Config cfg1 = (*m_graph)[cfgs[i]].cfg;
+void TogglePRM::toggleConnect () {
+    //for each cfg in free graph find k closest
+    vertex_iterator u, v, nxt;
+    boost::tie(u, v) = boost::vertices(m_graph[FREE]);
+    for (nxt=u; nxt!=v; ++nxt) {
+        Config cfg1 = m_graph[FREE][*nxt].cfg;
         // Convert the input point to the FLANN format.
         flann::Matrix<double> flann_query(new double[m_env.dim], 1, m_env.dim);
         for (int j=0;j<m_env.dim;++j)
             flann_query[0][j] = cfg1.t[j];
-
         // Search the kd tree for the nearest neighbor to the query.
         std::vector< std::vector<int> > query_match_indices;
         std::vector< std::vector<double> > query_distances;
-        int num_neighbors_found = index_->knnSearch(
+        int num_neighbors_found = index_[FREE]->knnSearch(
                                 flann_query, query_match_indices, query_distances, m_k_closest,
                                 flann::SearchParams(flann::FLANN_CHECKS_UNLIMITED) /* no approx */);
-
         for (int j=0;j<num_neighbors_found;++j) {
-            Config cfg2 = (*m_graph)[cfgs[query_match_indices[0][j]]].cfg;
-            if (boost::edge(cfgs[i], cfgs[query_match_indices[0][j]], *m_graph).second) continue;
+            Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
+            if (boost::edge(*nxt, query_match_indices[0][j], m_graph[FREE]).second) continue;
             if (isValid(cfg1,cfg2) || isValid(cfg2,cfg1)) {
-                boost::add_edge(cfgs[i], cfgs[query_match_indices[0][j]], cfg1.distance(cfg2), *m_graph);
+                boost::add_edge(*nxt, query_match_indices[0][j], cfg1.distance(cfg2), m_graph[FREE]);
             }
         }
     }
 }
 
 //connect cfg to rmap
-int PRM::connect2Map (const Config& cfg, std::vector<int> &cc) {
+int TogglePRM::connect2Map (const Config& cfg, std::vector<int> &cc) {
     for (int i=0;i<cc.size();++i) {
-        Config cfg2 = (*m_graph)[cfgs[cc[i]]].cfg;
+        Config cfg2 = m_graph[FREE][cc[i]].cfg;
         if (isValid(cfg,cfg2) || isValid(cfg2,cfg))
             return cc[i];
     }
     return -1;
 }
 
-bool PRM::findPathV1V2 (int v1, int v2, PATH& path) {
+bool TogglePRM::findPathV1V2 (int v1, int v2, PATH& path) {
     if (v1 == v2) return true;
-    std::vector<int> predecessors(boost::num_vertices(*m_graph));
-    std::vector<double> distances( boost::num_vertices(*m_graph));
+    std::vector<int> predecessors(boost::num_vertices(m_graph[FREE]));
+    std::vector<double> distances(boost::num_vertices(m_graph[FREE]));
 
     // Dijkstra's Shortest Paths
-    boost::dijkstra_shortest_paths(*m_graph, v1,
+    boost::dijkstra_shortest_paths(m_graph[FREE], v1,
                                    boost::predecessor_map(&predecessors[0]).distance_map(&distances[0]));
     if (predecessors.size() == 0) return false;
 
     int current = v2;
     while (current != v1) {
-        path.push_back(toPhysical((*m_graph)[cfgs[current]].cfg));
+        path.push_back(toPhysical(m_graph[FREE][current].cfg));
         current = predecessors[current];
     }
-    path.push_back(toPhysical((*m_graph)[cfgs[v1]].cfg));
+    path.push_back(toPhysical(m_graph[FREE][v1].cfg));
 
     std::reverse(path.begin(), path.end());
     return true;

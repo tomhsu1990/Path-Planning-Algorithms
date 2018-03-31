@@ -95,3 +95,19 @@ bool Planner::isValid (const Config& c1, const Config& c2) {
     }
     return true;
 }
+
+//connect from c1 to c2 and record c3 as a witness
+bool Planner::isValid (const Config& c1, const Config& c2, Config& c3) {
+    Config dir = (c2 - c1); //general moving direction
+    int steps = (int) ceil( std::max((dir.normT()/env_TR), (dir.normR()/env_RR)) );
+    Config step = dir/steps;
+
+    for (int i=0;i<=steps;++i) {
+        Config now_cfg = c1 + step*i;
+        if (!this->isValid(now_cfg)) {
+            c3 = now_cfg;
+            return false;
+        }
+    }
+    return true;
+}
