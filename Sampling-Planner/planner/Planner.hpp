@@ -28,15 +28,23 @@
 // Create a struct to hold properties for each vertex
 struct VertexProperties {
     Config cfg;
+    VertexProperties () {}
+    VertexProperties (const Config& c) : cfg(c) {}
 };
 // Create a struct to hold properties for each edge
-//struct EdgeProperties { double weight; };
+struct EdgeProperties {
+    double weight;
+    int status;
+    EdgeProperties () : weight(INT_MAX), status(0) {}
+    EdgeProperties (double w, int s) : weight(w), status(s) {}
+};
 
 typedef std::vector<Config> PATH;
 typedef boost::property<boost::edge_weight_t, double> EdgeWeight;
-typedef boost::adjacency_list<boost::listS, boost::vecS, boost::undirectedS, VertexProperties, EdgeWeight> UndirectedGraph;
+typedef boost::adjacency_list<boost::listS, boost::vecS, boost::undirectedS, VertexProperties, EdgeProperties> UndirectedGraph;
 typedef boost::graph_traits<UndirectedGraph>::vertex_descriptor vertex_descriptor;
 typedef boost::graph_traits<UndirectedGraph>::vertex_iterator vertex_iterator;
+typedef boost::graph_traits<UndirectedGraph>::edge_descriptor edge_descriptor;
 typedef boost::graph_traits<UndirectedGraph>::edge_iterator edge_iterator;
 
 class Planner {

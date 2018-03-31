@@ -304,9 +304,6 @@ void Display::drawTree(RRT* planner, const RRT_Tree& tree){
         Config pcfg=planner->toPhysical(parent->cfg);
         glVertex2d(ncfg.t[0], ncfg.t[1]);
         glVertex2d(pcfg.t[0], pcfg.t[1]);
-
-//        glVertex2d(node->cfg.t[0], node->cfg.t[1]);
-//        glVertex2d(parent->cfg.t[0], parent->cfg.t[1]);
     }
     glEnd();
 }
@@ -332,7 +329,6 @@ void Display::drawGraph(PRM* planner, const UndirectedGraph& graph, std::vector<
     ///////////////////////////////////////////////////////////////////////////
     //draw edges
     std::pair<edge_iterator, edge_iterator> ei = boost::edges(graph);
-    glColor3f(edge_clr[0], edge_clr[1], edge_clr[2]);
     glPushAttrib(GL_CURRENT_BIT);
     glBegin(GL_LINES);
     for (edge_iterator it=ei.first; it!=ei.second; ++it) {
@@ -340,6 +336,13 @@ void Display::drawGraph(PRM* planner, const UndirectedGraph& graph, std::vector<
         unsigned tgt = boost::target(*it,graph);
         Config cfg1 = planner->toPhysical(graph[src].cfg);
         Config cfg2 = planner->toPhysical(graph[tgt].cfg);
+        std::pair<edge_descriptor, bool> edge_pair = boost::edge(src, tgt, graph);
+        if (graph[edge_pair.first].status > 0)
+             glColor3f(edge_clr[0], edge_clr[1], edge_clr[2]);
+        else if(graph[edge_pair.first].status == 0)
+             glColor3f(edge_clr[0]*0.5f, edge_clr[1]*0.5f, edge_clr[2]);
+        else glColor3f(edge_clr[0]*0.5f, edge_clr[1], edge_clr[2]*0.5f);
+
         glVertex2d(cfg1.t[0], cfg1.t[1]);
         glVertex2d(cfg2.t[0], cfg2.t[1]);
     }

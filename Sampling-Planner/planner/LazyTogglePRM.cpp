@@ -69,12 +69,15 @@ bool LazyTogglePRM::findPath () {
 
 bool LazyTogglePRM::pathValidation (int v1, int v2, PATH& path, std::vector<Config> &witness) {
     if (v1 == v2) return true;
-    std::vector<int> predecessors(boost::num_vertices(m_graph[FREE]));
+    std::vector<vertex_descriptor> predecessors(boost::num_vertices(m_graph[FREE]));
     std::vector<double> distances(boost::num_vertices(m_graph[FREE]));
 
     // Dijkstra's Shortest Paths
     boost::dijkstra_shortest_paths(m_graph[FREE], v1,
-                                   boost::predecessor_map(&predecessors[0]).distance_map(&distances[0]));
+                                   boost::weight_map(boost::get(&EdgeProperties::weight,m_graph[FREE]))
+                                   .distance_map(boost::make_iterator_property_map(distances.begin(), boost::get(boost::vertex_index,m_graph[FREE])))
+                                   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(), boost::get(boost::vertex_index,m_graph[FREE])))
+                                   );
     if (predecessors.size() == 0) return false;
 
     int cnt(0), current = v2;
@@ -85,6 +88,10 @@ bool LazyTogglePRM::pathValidation (int v1, int v2, PATH& path, std::vector<Conf
             boost::remove_edge(current, predecessors[current], m_graph[FREE]);
             witness.push_back(cfg);
             ++cnt;
+        }
+        else {
+            std::pair<edge_descriptor, bool> edge_pair = boost::edge(current, predecessors[current], m_graph[FREE]);
+            m_graph[FREE][edge_pair.first].status = 1;
         }
         current = predecessors[current];
     }

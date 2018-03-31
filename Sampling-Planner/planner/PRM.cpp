@@ -117,7 +117,7 @@ void PRM::connect () {
             if (boost::edge(*nxt, tmp, m_graph[FREE]).second) continue;
             Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
             if (isValid(cfg1,cfg2) && cfg1.dim_r!=0 || isValid(cfg2,cfg1)) {
-                boost::add_edge(*nxt, tmp, cfg1.distance(cfg2), m_graph[FREE]);
+                boost::add_edge(*nxt, tmp, EdgeProperties(cfg1.distance(cfg2),1), m_graph[FREE]);
             }
         }
     }
@@ -135,12 +135,15 @@ int PRM::connect2Map (const Config& cfg, std::vector<int> &cc) {
 
 bool PRM::findPathV1V2 (int v1, int v2, PATH& path) {
     if (v1 == v2) return true;
-    std::vector<int> predecessors(boost::num_vertices(m_graph[FREE]));
+    std::vector<vertex_descriptor> predecessors(boost::num_vertices(m_graph[FREE]));
     std::vector<double> distances(boost::num_vertices(m_graph[FREE]));
 
     // Dijkstra's Shortest Paths
     boost::dijkstra_shortest_paths(m_graph[FREE], v1,
-                                   boost::predecessor_map(&predecessors[0]).distance_map(&distances[0]));
+                                   boost::weight_map(boost::get(&EdgeProperties::weight,m_graph[FREE]))
+                                   .distance_map(boost::make_iterator_property_map(distances.begin(), boost::get(boost::vertex_index,m_graph[FREE])))
+                                   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(), boost::get(boost::vertex_index,m_graph[FREE])))
+                                   );
     if (predecessors.size() == 0) return false;
 
     int current = v2;

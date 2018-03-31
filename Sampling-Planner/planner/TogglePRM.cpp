@@ -90,21 +90,21 @@ void TogglePRM::toggleConnect () {
             Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
             Config cfg3, cfg4;
             if (isValid(cfg1,cfg2,cfg3)) {
-                boost::add_edge(*nxt, query_match_indices[0][j], cfg1.distance(cfg2), m_graph[FREE]);
+                boost::add_edge(*nxt, query_match_indices[0][j], EdgeProperties(cfg1.distance(cfg2),1), m_graph[FREE]);
             }
             else if (!(cfg1 == cfg3)) {
                 vertex_descriptor tmp = boost::add_vertex(m_graph[FREE]);
                 m_graph[FREE][tmp].cfg = cfg3;
-                boost::add_edge(tmp, *nxt, cfg1.distance(cfg3), m_graph[FREE]);
+                boost::add_edge(tmp, *nxt, EdgeProperties(cfg1.distance(cfg3),1), m_graph[FREE]);
             }
             if (boost::edge(query_match_indices[0][j], *nxt, m_graph[FREE]).second) continue;
             if (isValid(cfg2,cfg1,cfg4)) {
-                boost::add_edge(query_match_indices[0][j], *nxt, cfg1.distance(cfg2), m_graph[FREE]);
+                boost::add_edge(query_match_indices[0][j], *nxt, EdgeProperties(cfg1.distance(cfg2),1), m_graph[FREE]);
             }
             else if (!(cfg2 == cfg4)) {
                 vertex_descriptor tmp = boost::add_vertex(m_graph[FREE]);
                 m_graph[FREE][tmp].cfg = cfg4;
-                boost::add_edge(query_match_indices[0][j], tmp, cfg2.distance(cfg4), m_graph[FREE]);
+                boost::add_edge(query_match_indices[0][j], tmp, EdgeProperties(cfg2.distance(cfg4),1), m_graph[FREE]);
             }
         }
 
@@ -118,7 +118,7 @@ void TogglePRM::toggleConnect () {
             if (!isValid(cfg1,cfg2,cfg3) && !(cfg1 == cfg3)) {
                 vertex_descriptor tmp = boost::add_vertex(m_graph[FREE]);
                 m_graph[FREE][tmp].cfg = cfg3;
-                boost::add_edge(*nxt, tmp, cfg1.distance(cfg3), m_graph[FREE]);
+                boost::add_edge(*nxt, tmp, EdgeProperties(cfg1.distance(cfg3),1), m_graph[FREE]);
             }
         }
     }
@@ -161,12 +161,15 @@ int TogglePRM::connect2Map (const Config& cfg, std::vector<int> &cc) {
 
 bool TogglePRM::findPathV1V2 (int v1, int v2, PATH& path) {
     if (v1 == v2) return true;
-    std::vector<int> predecessors(boost::num_vertices(m_graph[FREE]));
+    std::vector<vertex_descriptor> predecessors(boost::num_vertices(m_graph[FREE]));
     std::vector<double> distances(boost::num_vertices(m_graph[FREE]));
 
     // Dijkstra's Shortest Paths
     boost::dijkstra_shortest_paths(m_graph[FREE], v1,
-                                   boost::predecessor_map(&predecessors[0]).distance_map(&distances[0]));
+                                   boost::weight_map(boost::get(&EdgeProperties::weight,m_graph[FREE]))
+                                   .distance_map(boost::make_iterator_property_map(distances.begin(), boost::get(boost::vertex_index,m_graph[FREE])))
+                                   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(), boost::get(boost::vertex_index,m_graph[FREE])))
+                                   );
     if (predecessors.size() == 0) return false;
 
     int current = v2;

@@ -78,19 +78,22 @@ void LazyPRM::lazyConnect () {
         for (int j=1;j<num_neighbors_found;++j) {
             if (boost::edge(*nxt, query_match_indices[0][j],m_graph[FREE]).second) continue;
             Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
-            boost::add_edge(*nxt, query_match_indices[0][j], cfg1.distance(cfg2), m_graph[FREE]);
+            boost::add_edge(*nxt, query_match_indices[0][j], EdgeProperties(cfg1.distance(cfg2),0), m_graph[FREE]);
         }
     }
 }
 
 bool LazyPRM::findPathV1V2 (int v1, int v2, PATH& path) {
     if (v1 == v2) return true;
-    std::vector<int> predecessors(boost::num_vertices(m_graph[FREE]));
+    std::vector<vertex_descriptor> predecessors(boost::num_vertices(m_graph[FREE]));
     std::vector<double> distances(boost::num_vertices(m_graph[FREE]));
 
     // Dijkstra's Shortest Paths
     boost::dijkstra_shortest_paths(m_graph[FREE], v1,
-                                   boost::predecessor_map(&predecessors[0]).distance_map(&distances[0]));
+                                   boost::weight_map(boost::get(&EdgeProperties::weight,m_graph[FREE]))
+                                   .distance_map(boost::make_iterator_property_map(distances.begin(), boost::get(boost::vertex_index,m_graph[FREE])))
+                                   .predecessor_map(boost::make_iterator_property_map(predecessors.begin(), boost::get(boost::vertex_index,m_graph[FREE])))
+                                   );
     if (predecessors.size() == 0) return false;
 
     int current = v2;
@@ -99,6 +102,10 @@ bool LazyPRM::findPathV1V2 (int v1, int v2, PATH& path) {
         if (!isValid(m_graph[FREE][current].cfg, m_graph[FREE][predecessors[current]].cfg)) {
             boost::remove_edge(current, predecessors[current], m_graph[FREE]);
             return false;
+        }
+        else {
+            std::pair<edge_descriptor, bool> edge_pair = boost::edge(current, predecessors[current], m_graph[FREE]);
+            m_graph[FREE][edge_pair.first].status = 1;
         }
         current = predecessors[current];
     }
