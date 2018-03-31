@@ -82,12 +82,12 @@ void Display::renderScene () {
 
     drawPolygons(planner->getPolygons());
 
-    if(dynamic_cast<PRM*>(planner) != NULL && f_prm->show_prm_graph) {
+    if(dynamic_cast<PRM*>(planner) != nullptr && f_prm->show_prm_graph) {
         PRM * prm=dynamic_cast<PRM*>(planner);
         drawGraph(prm, prm->getGraph(), color_table[3], color_table[2]);
         update();
     }
-    if (dynamic_cast<RRT*>(planner) != NULL && f_prm->show_rrt_graph) {
+    if (dynamic_cast<RRT*>(planner) != nullptr && f_prm->show_rrt_graph) {
         RRT * rrt=dynamic_cast<RRT*>(planner);
         drawTree(rrt, rrt->getTree());
         update();
