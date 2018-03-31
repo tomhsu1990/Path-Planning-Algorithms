@@ -54,6 +54,12 @@ void run () {
     if (!f_prm->method.compare("prm") || !f_prm->method.compare("PRM") || !f_prm->method.compare("Prm")) {
         mw_out<<"- prm connection k = "<<(int)f_prm->prm_closest_free_k<<"\n";
     }
+    else if (!f_prm->method.compare("lazyprm") || !f_prm->method.compare("LAZYPRM") || !f_prm->method.compare("LazyPRM") || !f_prm->method.compare("LazyPrm")) {
+        mw_out<<"- lazy prm connection k = "<<(int)f_prm->prm_closest_free_k<<"\n";
+    }
+    else if (!f_prm->method.compare("toggleprm") || !f_prm->method.compare("TOGGLEPRM") || !f_prm->method.compare("TogglePRM") || !f_prm->method.compare("TogglePrm")) {
+        mw_out<<"- toggle prm connection k = "<<(int)f_prm->prm_closest_free_k<<"\n";
+    }
     else if (!f_prm->method.compare("rrt") || !f_prm->method.compare("RRT") || !f_prm->method.compare("Rrt")) {
         mw_out<<"- rrt step size = "<<f_prm->rrt_step_size<<"\n";
         mw_out<<"- rrt goal bias = "<<f_prm->rrt_bias<<"\n";
