@@ -11,6 +11,7 @@
 #define mw_out (*window)
 MainWindow *window;
 
+void createPlanner();
 void run();
 
 int main(int argc, char** argv) {
@@ -22,13 +23,39 @@ int main(int argc, char** argv) {
     f_prm->checkPwd();
     f_prm->parseExampleList();
     f_prm->parseExampleFile();
-    f_prm->parseMapFile(&planner);
+    createPlanner();
+    f_prm->parseMapFile(planner);
 
     window = new MainWindow();
     run();
     window->show();
 
     return app.exec();
+}
+
+void createPlanner () {
+    planner = nullptr;
+    if (!f_prm->method.compare("prm") || !f_prm->method.compare("PRM") || !f_prm->method.compare("Prm")) {
+        fprintf(stderr, "new PRM\n");
+        planner = new PRM(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
+                          f_prm->max_sample_size, f_prm->prm_closest_free_k);
+    }
+    else if (!f_prm->method.compare("lazyprm") || !f_prm->method.compare("LAZYPRM")  || !f_prm->method.compare("LazyPRM") || !f_prm->method.compare("LazyPrm")) {
+        planner = new LazyPRM(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
+                              f_prm->max_sample_size, f_prm->prm_closest_free_k);
+    }
+    else if (!f_prm->method.compare("toggleprm") || !f_prm->method.compare("TOGGLEPRM") || !f_prm->method.compare("TogglePRM") || !f_prm->method.compare("TogglePrm")) {
+        planner = new TogglePRM(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
+                                f_prm->max_sample_size, f_prm->prm_closest_free_k);
+    }
+    else if (!f_prm->method.compare("lazytoggleprm") || !f_prm->method.compare("LAZYTOGGLEPRM") || !f_prm->method.compare("LazyTogglePRM") || !f_prm->method.compare("LazyTogglePrm")) {
+        planner = new LazyTogglePRM(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
+                                    f_prm->max_sample_size, f_prm->prm_closest_free_k);
+    }
+    else if (!f_prm->method.compare("rrt") || !f_prm->method.compare("RRT") || !f_prm->method.compare("Rrt")) {
+        planner = new RRT(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
+                          f_prm->max_sample_size, f_prm->rrt_step_size, f_prm->rrt_bias, f_prm->rrt_close_to_goal);
+    }
 }
 
 int run_count = 1;
@@ -60,6 +87,9 @@ void run () {
     else if (!f_prm->method.compare("toggleprm") || !f_prm->method.compare("TOGGLEPRM") || !f_prm->method.compare("TogglePRM") || !f_prm->method.compare("TogglePrm")) {
         mw_out<<"- toggle prm connection k = "<<(int)f_prm->prm_closest_free_k<<"\n";
     }
+    else if (!f_prm->method.compare("lazytoggleprm") || !f_prm->method.compare("LAZYTOGGLEPRM") || !f_prm->method.compare("LazyTogglePRM") || !f_prm->method.compare("LazyTogglePrm")) {
+        mw_out<<"- lazy toggle prm connection k = "<<(int)f_prm->prm_closest_free_k<<"\n";
+    }
     else if (!f_prm->method.compare("rrt") || !f_prm->method.compare("RRT") || !f_prm->method.compare("Rrt")) {
         mw_out<<"- rrt step size = "<<f_prm->rrt_step_size<<"\n";
         mw_out<<"- rrt goal bias = "<<f_prm->rrt_bias<<"\n";
@@ -78,7 +108,7 @@ void run () {
 
     if (!f_prm->no_path) {
         std::vector<Config> path = planner->getPath();
-        mw_out<<"\n! Path found "<<"length = "<<(int)path.size()<<")\n";
+        mw_out<<"\n! Path found "<<"length = "<<(int)path.size()<<"\n";
     }
     else {
         mw_out<<"\n! Path not found\n";

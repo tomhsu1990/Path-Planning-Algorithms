@@ -30,6 +30,7 @@ Planner::Planner (const Env &env, double tr, double rr, const Config& start, con
         this->addPolygon(bb);
     }
 }
+Planner::~Planner () {fprintf(stderr, "in ~\n");}
 
 Config Planner::toPhysical (const Config& cfg) {
     std::vector<double> ref;

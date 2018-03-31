@@ -43,6 +43,7 @@ class Planner {
 public:
     //workspace, translational resolution, rotational resolution...
     Planner(const Env &env, double tr, double rr, const Config& start, const Config& goal);
+    ~Planner();
 
     virtual bool findPath () = 0;
     const PATH& getPath () const { return this->m_path; }

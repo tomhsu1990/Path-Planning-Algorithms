@@ -20,7 +20,7 @@
 #include "config/Config.hpp"
 #include "PRM.hpp"
 
-class TogglePRM : public PRM {
+class TogglePRM : virtual public PRM {
 public:
 
     TogglePRM(const Env &env, double tr, double rr, const Config& start, const Config& goal,

@@ -30,6 +30,7 @@
 #include "planner/PRM.hpp"
 #include "planner/LazyPRM.hpp"
 #include "planner/TogglePRM.hpp"
+#include "planner/LazyTogglePRM.hpp"
 
 class FileParameter {
 public:
@@ -39,7 +40,7 @@ public:
     void checkPwd ();
     void parseExampleList ();
     void parseExampleFile ();
-    void parseMapFile (Planner **planner);
+    void parseMapFile (Planner *planner);
 
     //working environment parameters
     std::string working_dir, input_dir;

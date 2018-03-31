@@ -284,26 +284,8 @@ void FileParameter::parseExampleFile () {
     }
 }
 
-void FileParameter::parseMapFile (Planner **planner) {
-
-    free(*planner); (*planner) = nullptr;
-    if (!method.compare("prm") || !method.compare("PRM") || !method.compare("Prm")) {
-        (*planner) = new PRM(env, env_TR, env_RR, start, goal,
-                             max_sample_size,prm_closest_free_k);
-    }
-    else if (!method.compare("lazyprm") || !method.compare("LAZYPRM")  || !method.compare("LazyPRM") || !method.compare("LazyPrm")) {
-        (*planner) = new LazyPRM(env, env_TR, env_RR, start, goal,
-                             max_sample_size,prm_closest_free_k);
-    }
-    else if (!method.compare("toggleprm") || !method.compare("TOGGLEPRM") || !method.compare("TogglePRM") || !method.compare("TogglePrm")) {
-        (*planner) = new TogglePRM(env, env_TR, env_RR, start, goal,
-                             max_sample_size,prm_closest_free_k);
-    }
-    else if (!method.compare("rrt") || !method.compare("RRT") || !method.compare("Rrt")) {
-        (*planner) = new RRT(env, env_TR, env_RR, start, goal,
-                             max_sample_size, rrt_step_size,rrt_bias,rrt_close_to_goal);
-    }
-    if ((*planner) == nullptr) return;
+void FileParameter::parseMapFile (Planner *planner) {
+    if (planner == nullptr) return;
 
     std::string full_name = input_dir+"/"+file_name;
     std::ifstream fin;
@@ -336,7 +318,7 @@ void FileParameter::parseMapFile (Planner **planner) {
                               pts[idx].Y()*env_scale+env_delta.second);
             }
             poly.setOrientation();
-            (*planner)->addPolygon(poly);
+            planner->addPolygon(poly);
         }
     }
 }

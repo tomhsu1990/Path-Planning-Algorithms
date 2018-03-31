@@ -20,7 +20,7 @@
 #include "config/Config.hpp"
 #include "PRM.hpp"
 
-class LazyPRM : public PRM {
+class LazyPRM : virtual public PRM {
 public:
 
     LazyPRM(const Env &env, double tr, double rr, const Config& start, const Config& goal,

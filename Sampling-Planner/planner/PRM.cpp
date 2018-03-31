@@ -17,7 +17,6 @@ PRM::PRM(const Env &env, double tr, double rr, const Config& start, const Config
 }
 
 PRM::~PRM() {
-    clean();
 }
 
 void PRM::addPoint (Config cfg, UndirectedGraph &m_graph, std::shared_ptr< flann::Index< flann::L2<double> > > &index_) {

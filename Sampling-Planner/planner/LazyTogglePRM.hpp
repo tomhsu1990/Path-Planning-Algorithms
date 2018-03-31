@@ -21,7 +21,7 @@
 #include "LazyPRM.hpp"
 #include "TogglePRM.hpp"
 
-class LazyTogglePRM : public LazyPRM {
+class LazyTogglePRM : public LazyPRM, public TogglePRM {
 public:
 
     LazyTogglePRM(const Env &env, double tr, double rr, const Config& start, const Config& goal,
@@ -34,12 +34,10 @@ public:
 
 protected:
 
-    int connect2Map (const Config& cfg, std::vector<int> &cc);
-    bool findPathV1V2 (int v1, int v2, PATH& path);
+    bool pathValidation (int v1, int v2, PATH& path, std::vector<Config> &witness);
+    void witnessProcessing (std::vector<Config> &witness);
 
     unsigned int m_k_closest_free, m_k_closest_obst;
-
-private:
 };
 
 #endif // LAZYTOGGLEPRM_H_

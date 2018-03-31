@@ -36,6 +36,7 @@ public:
     UndirectedGraph& getGraph() { return m_graph[FREE]; }
 
 protected:
+    void addPoint (Config cfg, UndirectedGraph &m_graph, std::shared_ptr< flann::Index< flann::L2<double> > > &index_);
 
     virtual void sample();
     virtual void connect();
@@ -53,11 +54,9 @@ private:
     void clean () {
         for (int i=0;i<2;++i) {
             index_[i].reset();
-            index_[i] = nullptr;
             m_graph[i].clear();
         }
     }
-    void addPoint (Config cfg, UndirectedGraph &m_graph, std::shared_ptr< flann::Index< flann::L2<double> > > &index_);
 };
 
 #endif // PRM_H_

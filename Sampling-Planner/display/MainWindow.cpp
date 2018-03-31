@@ -11,6 +11,7 @@
 extern FileParameter *f_prm;
 extern Planner *planner;
 
+extern void createPlanner();
 extern void run();
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -51,6 +52,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     else if (!f_prm->method.compare("toggleprm") || !f_prm->method.compare("TOGGLEPRM") || !f_prm->method.compare("TogglePRM") || !f_prm->method.compare("TogglePrm")) {
         ui->toggle_prm->setChecked(true);
+    }
+    else if (!f_prm->method.compare("lazytoggleprm") || !f_prm->method.compare("LAZYTOGGLEPRM") || !f_prm->method.compare("LazyTogglePRM") || !f_prm->method.compare("LazyTogglePrm")) {
+        ui->lazy_toggle_prm->setChecked(true);
     }
     else if (!f_prm->method.compare("rrt") || !f_prm->method.compare("RRT") || !f_prm->method.compare("Rrt")) {
         ui->rrt->setChecked(true);
@@ -167,8 +171,6 @@ void MainWindow::on_run_clicked() {
         f_prm->show_prm_graph=ui->prm_graph->isChecked();
         f_prm->show_rrt_graph=ui->rrt_graph->isChecked();
 
-        // 4/13/2016
-        // only initialize the seed when it is changed
         int new_seed = ui->seed->value();
         if (f_prm->seed != new_seed) {
             f_prm->seed = new_seed;
@@ -209,6 +211,9 @@ void MainWindow::on_run_clicked() {
         else if (!f_prm->method.compare("toggleprm") || !f_prm->method.compare("TOGGLEPRM") || !f_prm->method.compare("TogglePRM") || !f_prm->method.compare("TogglePrm")) {
             ui->toggle_prm->setChecked(true);
         }
+        else if (!f_prm->method.compare("lazytoggleprm") || !f_prm->method.compare("LAZYTOGGLEPRM") || !f_prm->method.compare("LazyTogglePRM") || !f_prm->method.compare("LazyTogglePrm")) {
+            ui->lazy_toggle_prm->setChecked(true);
+        }
         else if (!f_prm->method.compare("rrt") || !f_prm->method.compare("RRT") || !f_prm->method.compare("Rrt")) {
             ui->rrt->setChecked(true);
         }
@@ -237,7 +242,8 @@ void MainWindow::on_run_clicked() {
     f_prm->show_anim = true;
     f_prm->pause_anim = false;
 
-    f_prm->parseMapFile(&planner);
+    createPlanner();
+    f_prm->parseMapFile(planner);
     run();
 
     ui->openGLWidget->update();

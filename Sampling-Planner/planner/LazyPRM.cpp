@@ -76,6 +76,7 @@ void LazyPRM::lazyConnect () {
                                 flann_query, query_match_indices, query_distances, m_k_closest+1,
                                 flann::SearchParams(flann::FLANN_CHECKS_UNLIMITED) /* no approx */);
         for (int j=1;j<num_neighbors_found;++j) {
+            if (boost::edge(*nxt, query_match_indices[0][j],m_graph[FREE]).second) continue;
             Config cfg2 = m_graph[FREE][query_match_indices[0][j]].cfg;
             boost::add_edge(*nxt, query_match_indices[0][j], cfg1.distance(cfg2), m_graph[FREE]);
         }
