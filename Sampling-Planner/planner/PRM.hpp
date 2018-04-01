@@ -53,7 +53,8 @@ protected:
 private:
     void clean () {
         for (int i=0;i<2;++i) {
-            index_[i].reset();
+            flann::Index< flann::L2<double>> *tmp = index_[i].get();
+            delete tmp;
             m_graph[i].clear();
         }
     }
