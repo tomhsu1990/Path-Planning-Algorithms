@@ -5,9 +5,9 @@
 #     Author: Ching-Hsiang Hsu
 
 QT       += \
-core \
-gui \
-opengl
+    core \
+    gui \
+    opengl
 
 greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
