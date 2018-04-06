@@ -36,25 +36,29 @@ int main(int argc, char** argv) {
 void createPlanner () {
     planner = nullptr;
     if (!f_prm->method.compare("prm") || !f_prm->method.compare("PRM") || !f_prm->method.compare("Prm")) {
-        fprintf(stderr, "new PRM\n");
         planner = new PRM(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
                           f_prm->max_sample_size, f_prm->prm_closest_free_k);
+        f_prm->show_rrt_graph = false;
     }
     else if (!f_prm->method.compare("lazyprm") || !f_prm->method.compare("LAZYPRM")  || !f_prm->method.compare("LazyPRM") || !f_prm->method.compare("LazyPrm")) {
         planner = new LazyPRM(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
                               f_prm->max_sample_size, f_prm->prm_closest_free_k);
+        f_prm->show_rrt_graph = false;
     }
     else if (!f_prm->method.compare("toggleprm") || !f_prm->method.compare("TOGGLEPRM") || !f_prm->method.compare("TogglePRM") || !f_prm->method.compare("TogglePrm")) {
         planner = new TogglePRM(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
                                 f_prm->max_sample_size, f_prm->prm_closest_free_k);
+        f_prm->show_rrt_graph = false;
     }
     else if (!f_prm->method.compare("lazytoggleprm") || !f_prm->method.compare("LAZYTOGGLEPRM") || !f_prm->method.compare("LazyTogglePRM") || !f_prm->method.compare("LazyTogglePrm")) {
         planner = new LazyTogglePRM(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
                                     f_prm->max_sample_size, f_prm->prm_closest_free_k);
+        f_prm->show_rrt_graph = false;
     }
     else if (!f_prm->method.compare("rrt") || !f_prm->method.compare("RRT") || !f_prm->method.compare("Rrt")) {
         planner = new RRT(f_prm->env, f_prm->env_TR, f_prm->env_RR, f_prm->start, f_prm->goal,
                           f_prm->max_sample_size, f_prm->rrt_step_size, f_prm->rrt_bias, f_prm->rrt_close_to_goal);
+        f_prm->show_prm_graph = false;
     }
 }
 

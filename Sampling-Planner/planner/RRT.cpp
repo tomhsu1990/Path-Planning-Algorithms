@@ -50,9 +50,9 @@ bool RRT::findPath () {
         Config rand_cfg;
 
         //bias to the goal...
-        if (drand48()<this->m_goal_bias)
+        if (drand48()<m_goal_bias)
             rand_cfg=m_goal;
-        else rand_cfg=Config::randomCfg(this->m_start.dim_t, this->m_start.dim_r);
+        else rand_cfg=Config::randomCfg(m_start.dim_t, m_start.dim_r);
 
         RRT_NODE* nearest_node = this->nearest(rand_cfg);
         Config out_cfg;
@@ -62,9 +62,6 @@ bool RRT::findPath () {
             addPoint(new_node);
 
             double dist = (out_cfg-m_goal).norm();
-            if (dist < min_dist) {
-                min_dist = dist;
-            }
             if (dist <= m_close_to_goal) {
                 RRT_NODE* goal_node = new RRT_NODE(m_goal, new_node);
                 addPoint(goal_node);
@@ -75,7 +72,7 @@ bool RRT::findPath () {
     }
 
     if (m_found) {
-        RRT_NODE* node = this->m_tree.back();
+        RRT_NODE* node = m_tree.back();
         while (node) {
             m_path.push_back(toPhysical(node->cfg));
             node = node->parent;

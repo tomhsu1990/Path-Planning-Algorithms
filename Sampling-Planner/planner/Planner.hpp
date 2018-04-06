@@ -77,6 +77,7 @@ public:
     Config toParametric (const Config& cfg);
     Config toPhysical (const Config& cfg);
 
+    int m_path_index;
 
 protected:
 
