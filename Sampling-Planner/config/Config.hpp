@@ -72,7 +72,7 @@ public:
 
     inline double normsqr () const {
         assert(ws);
-        double weight=0.01;
+        double weight=0.001;
         double nt(0);
         for (int i=0;i<this->dim_t;++i)
             nt += SQR(this->t[i]);

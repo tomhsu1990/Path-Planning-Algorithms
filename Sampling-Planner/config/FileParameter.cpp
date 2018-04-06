@@ -9,7 +9,7 @@
 #include "FileParameter.hpp"
 
 FileParameter::FileParameter(){
-    cfg_name = "rand-tri-100.cfg";
+    cfg_name = "hole-in-wall.cfg";
     input_dir = "inputs";
     file_name = "simple.txt";
     num_cfg = 0;
@@ -24,7 +24,7 @@ FileParameter::FileParameter(){
     for(int i=0;i<env.dim;++i)
         env.space.push_back(512);
     env_TR = 0.01;
-    env_RR = 0.1;
+    env_RR = 0.01;
 
     method = "prm";
     sample_size = 100;
@@ -38,7 +38,7 @@ FileParameter::FileParameter(){
     prm_closest_obst_k = 2;
 
     window_pos = {50, 50};
-    show_anim = true;
+    show_anim = false;
     pause_anim = replay_anim = false;
     show_prm_graph = true;
     show_prm_graph_mixed = show_prm_graph_free = show_prm_graph_obst = show_prm_graph_edge = false;
@@ -47,7 +47,7 @@ FileParameter::FileParameter(){
     animation_speed = 99;
     animation_speed_scale = 5000;
 
-    show_trace = false;
+    show_trace = true;
     show_filled_obstacles = true;
 }
 
@@ -172,17 +172,14 @@ void FileParameter::parseExampleFile () {
                 sptr = strtok(nullptr, "=: #\t");
                 robot.R = atof(sptr);
             }
-            if (robot.name.compare("1link") == 0) {
+            if (robot.name.compare("link") == 0) {
                 sptr = strtok(nullptr, "=: #\t");
-                robot.L1 = atof(sptr);
-                sptr = strtok(nullptr, "=: #\t");
-                robot.Thickness = atof(sptr);
-            }
-            if (robot.name.compare("2links") == 0) {
-                sptr = strtok(nullptr, "=: #\t");
-                robot.L1 = atof(sptr);
-                sptr = strtok(nullptr, "=: #\t");
-                robot.L2 = atof(sptr);
+                int num = atoi(sptr);
+                assert(num==dim_r);
+                for (int i=0;i<num;++i) {
+                    sptr = strtok(nullptr, "=: #\t");
+                    robot.L.push_back(atof(sptr));
+                }
                 sptr = strtok(nullptr, "=: #\t");
                 robot.Thickness = atof(sptr);
             }

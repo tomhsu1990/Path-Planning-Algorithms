@@ -14,7 +14,8 @@
 class Robot {
 public:
     Robot(){
-        R=L1=L2=Thickness=0;
+        R=Thickness=0;
+        L.clear();
     }
     ~Robot(){}
 
@@ -26,24 +27,12 @@ public:
         R=r;
         this->setConfig(c);
     }
-    void init (double l1, double thickness, const Config& c) {
-        L1=l1;
+    void init (std::vector<double> l, double thickness, const Config& c) {
+        for (unsigned i=0;i<l.size();++i)
+            L.push_back(l[i]);
         Thickness = thickness;
         this->setConfig(c);
     }
-    void init (double l1, double l2, double thickness, const Config& c) {
-        L1=l1;
-        L2=l2;
-        Thickness = thickness;
-        this->setConfig(c);
-    }
-//    void init (const Config& c) {
-//        this->setConfig(c);
-//    }
-//    void init (double thickness, const Config& c) {
-//        Thickness = thickness;
-//        this->setConfig(c);
-//    }
 
     void setConfig (const Config& c) {
         this->cfg = c;
@@ -52,8 +41,8 @@ public:
     std::string name;
     // disc
     double R;
-    // rod
-    double L1, L2;
+    // link
+    std::vector<double> L;
     double Thickness;
     // triangle
     // polygon

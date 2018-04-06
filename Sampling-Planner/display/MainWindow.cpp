@@ -37,11 +37,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     if (f_prm->robot.name.compare("disc") == 0) {
         ui->R->setValue(f_prm->robot.R);
     }
-    else if (f_prm->robot.name.compare("1link") == 0) {
-
-    }
-    else if (f_prm->robot.name.compare("2links") == 0) {
-
+    // multiple pages of robot config
+    else if (f_prm->robot.name.compare("link") == 0) {
+        //ui->R->setValue(f_prm->robot.R);
     }
 
     if (!f_prm->method.compare("prm") || !f_prm->method.compare("PRM") || !f_prm->method.compare("Prm")) {
@@ -151,11 +149,9 @@ void MainWindow::on_run_clicked() {
         if (f_prm->robot.name.compare("disc") == 0) {
             f_prm->robot.R = ui->R->value();
         }
-        else if (f_prm->robot.name.compare("1link") == 0) {
-
-        }
-        else if (f_prm->robot.name.compare("2links") == 0) {
-
+        // multiple pages of robot config
+        else if (f_prm->robot.name.compare("link") == 0) {
+            //f_prm->robot.R = ui->R->value();
         }
 
 
@@ -195,11 +191,9 @@ void MainWindow::on_run_clicked() {
         if (f_prm->robot.name.compare("disc") == 0) {
             ui->R->setValue(f_prm->robot.R);
         }
-        else if (f_prm->robot.name.compare("1link") == 0) {
-
-        }
-        else if (f_prm->robot.name.compare("2links") == 0) {
-
+        // multiple pages of robot config
+        else if (f_prm->robot.name.compare("link") == 0) {
+            //ui->R->setValue(f_prm->robot.R);
         }
 
         if (!f_prm->method.compare("prm") || !f_prm->method.compare("PRM") || !f_prm->method.compare("Prm")) {

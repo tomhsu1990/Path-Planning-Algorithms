@@ -43,7 +43,7 @@ void Display::initializeGL () {
     color_table.push_back({1,1,0}); // yellow
     color_table.push_back({0,1,1}); // cyan
     color_table.push_back({1,0,1}); // magenta
-    for(int i=0;i<1000;++i)
+    for(int i=0;i<100;++i)
         color_table.push_back({(float)drand48(), (float)drand48(), (float)drand48()});
 }
 
@@ -96,43 +96,43 @@ void Display::renderScene () {
     if (!f_prm->no_path) {
         drawPath(planner, planner->getPath());
 
-//        if (f_prm->replay_anim) {
-//            f_prm->replay_anim = false;
+        if (f_prm->replay_anim) {
+            f_prm->replay_anim = false;
 
-//            f_prm->show_anim = true;
-//            f_prm->pause_anim = false;
-//        }
+            f_prm->show_anim = true;
+            f_prm->pause_anim = false;
+        }
 
-//        if(f_prm->show_anim){
-//            usleep((99-animationSpeed)*animationSpeedScale);
+        if(f_prm->show_anim){
+            usleep((99-f_prm->animation_speed)*f_prm->animation_speed_scale);
 
-//            const PATH& path = planner->getPath();
+            const PATH& path = planner->getPath();
 
-//            if(path_index < 0) path_index = 0;
-//            if(path_index >= path.size()) path_index = path.size()-1;
+            if(planner->m_path_index < 0) planner->m_path_index = 0;
+            if(planner->m_path_index >= path.size()) planner->m_path_index = path.size()-1;
 
-//            if (f_prm->pause_anim) {
-//                drawRobot(planner->getRobot(), planner->to_physical(path[path_index]));
-//            }
-//            else {
-//                if(path_index < planner->getPath().size()-1){
-//                    drawRobot(planner->getRobot(), planner->to_physical(path[path_index]));
-//                    path_index++;
-//                } else if(path_index+1 == planner->getPath().size()){
-//                    drawRobot(planner->getRobot(), planner->to_physical(path[path_index]));
+            if (f_prm->pause_anim) {
+                drawRobot(planner->getRobot(), path[planner->m_path_index], color_table[8]);
+            }
+            else {
+                if(planner->m_path_index < path.size()-1){
+                    drawRobot(planner->getRobot(), path[planner->m_path_index], color_table[8]);
+                    ++planner->m_path_index;
+                } else if(planner->m_path_index+1 == path.size()){
+                    drawRobot(planner->getRobot(), path[planner->m_path_index], color_table[8]);
 
-//                    showAnim=false;
-//                    path_index = 0;
-//                }
-//            }
-//            update();
-//        }
-//        if (f_prm->show_trace) {
-//            const PATH& path = planner->getPath();
-//            for(int i=0;i<planner->getPath().size();++i){
-//                drawRobot(planner->getRobot(), planner->toPhysical(path[i]));
-//            }
-//        }
+                    f_prm->show_anim = false;
+                    planner->m_path_index = 0;
+                }
+            }
+            update();
+        }
+        if (f_prm->show_trace) {
+            const PATH& path = planner->getPath();
+            for (int i=0;i<planner->getPath().size();++i) {
+                drawRobot(planner->getRobot(), path[i], color_table[9]);
+            }
+        }
     }
 
     drawRobot(planner->getRobot(), planner->toPhysical(planner->getStart()), color_table[6]);
@@ -153,50 +153,73 @@ void Display::drawPath (Planner* planner, const PATH& path) {
 void Display::drawRobot (Robot robot, const Config& cfg, std::vector<float> clr) {
     robot.setConfig(cfg);
     if (robot.name.compare("disc") == 0)
-        drawCircle(robot, clr);
+        drawCircle(robot, clr, robot.R);
+    if (robot.name.compare("link") == 0)
+        drawLinks(robot, clr);
 }
 
-void Display::drawLink (Point2d a, Point2d b, std::vector<float> clr) {
-//    glColor3fv(clr.rgb);
-//    glLineWidth(thickness*2.0f);
+void Display::drawLinks (Robot robot, std::vector<float> clr) {
+    std::vector<double> ang;
+    std::vector<Point2d> joint;
+    Point2d base(robot.cfg.t[0], robot.cfg.t[1]);
+    for (int i=0;i<robot.cfg.dim_r;++i)
+        ang.push_back(robot.cfg.r[i]*M_PI/180.0f);
+    joint.push_back(base);
+    for (unsigned i=1;i<=robot.L.size();++i) {
+        joint.push_back(Point2d(joint[i-1].X()+robot.L[i-1]*cos(ang[i-1]),
+                                joint[i-1].Y()+robot.L[i-1]*sin(ang[i-1])));
+    }
+
+//    glColor3f(clr[0], clr[1], clr[2]);
+//    glLineWidth(robot.Thickness*2.0f);
 //    glBegin(GL_LINE_STRIP);
-//        glVertex2f(a.x, a.y);
-//        glVertex2f(b.x, b.y);
+//        for (unsigned i=0;i<apex.size()-1;++i) {
+//            glVertex2f(apex[i].X(), apex[i].Y());
+//            glVertex2f(apex[i+1].X(), apex[i+1].Y());
+//        }
 //    glEnd();
 //    glLineWidth(1);
 
-//    // remember to do the exchange of the vector
-//    double vec_x = b[0]-a[0];
-//    double vec_y = b[1]-a[1];
-//    double norm2 = sqrt(vec_x*vec_x+vec_y*vec_y);
-//    vec_x = -(b[1]-a[1])/norm2;
-//    vec_y = (b[0]-a[0])/norm2;
+    // solve the thickness display problem
+    // remember to do the exchange of the vector
+    drawCircle(robot, clr, robot.Thickness*0.5f);
+    for (unsigned i=0;i<joint.size()-1;++i) {
+        Robot tmp = robot;
+        tmp.cfg.t[0] = joint[i+1].X(); tmp.cfg.t[1] = joint[i+1].Y();
+        drawCircle(tmp, clr, robot.Thickness*0.5f);
 
-//    Vector2d p[4];
-
-//    int dx[4] = {1,-1,1,-1};
-//    int dy[4] = {1,-1,1,-1};
-
-//    thickness *= 0.5;
-//    for(int i=0;i<2;++i){
-//        p[i]  = Vector2d(a[0]+dx[i]*thickness*vec_x, a[1]+dy[i]*thickness*vec_y);
-//    }
-//    for(int i=2;i<4;++i){
-//        p[i]  = Vector2d(b[0]+dx[i]*thickness*vec_x, b[1]+dy[i]*thickness*vec_y);
-//    }
-//    thickness *= 2;
-
-
-//    qsort(p, 4, sizeof(Vector2d), cmp);
-
-//    if(p[0][1] > p[3][1]){
-//        drawTriangle(p[0], p[3], p[1], clr);
-//        drawTriangle(p[0], p[2], p[3], clr);
-//    }
-//    else{
-//        drawTriangle(p[0], p[3], p[2], clr);
-//        drawTriangle(p[0], p[1], p[3], clr);
-//    }
+        double vec_x = joint[i+1].X()-joint[i].X();
+        double vec_y = joint[i+1].Y()-joint[i].Y();
+        double norm2 = sqrt(vec_x*vec_x+vec_y*vec_y);
+        vec_x = -(joint[i+1].Y()-joint[i].Y())/norm2;
+        vec_y =  (joint[i+1].X()-joint[i].X())/norm2;
+        std::vector<Point2d> p;
+        int dx[4] = {1,-1,1,-1};
+        int dy[4] = {1,-1,1,-1};
+        robot.Thickness *= 0.5;
+        for(int j=0;j<2;++j){
+            p.push_back(Point2d(joint[i].X()+dx[j]*robot.Thickness*vec_x,
+                                joint[i].Y()+dy[j]*robot.Thickness*vec_y));
+        }
+        for(int j=2;j<4;++j){
+            p.push_back(Point2d(joint[i+1].X()+dx[j]*robot.Thickness*vec_x,
+                                joint[i+1].Y()+dy[j]*robot.Thickness*vec_y));
+        }
+        robot.Thickness *= 2;
+        std::sort(p.begin(), p.end(), [] (const Point2d &a, const Point2d &b) {
+            if(a.X() < b.X() || (a.X() == b.X() && a.Y() < b.Y()))
+                return -1;
+            return 1;
+        });
+        if(p[0].Y() > p[3].Y()){
+            drawTriangle(p[0], p[3], p[1], clr);
+            drawTriangle(p[0], p[2], p[3], clr);
+        }
+        else{
+            drawTriangle(p[0], p[3], p[2], clr);
+            drawTriangle(p[0], p[1], p[3], clr);
+        }
+    }
 }
 void Display::drawTriangle (Point2d a, Point2d b, Point2d c, std::vector<float> clr) {
     glColor3f(clr[0], clr[1], clr[2]);
@@ -206,13 +229,13 @@ void Display::drawTriangle (Point2d a, Point2d b, Point2d c, std::vector<float> 
         glVertex2f( c.X(), c.Y() );
     glEnd();
 }
-void Display::drawCircle(Robot robot, std::vector<float> clr){
+void Display::drawCircle(Robot robot, std::vector<float> clr, double r){
     glColor3f(clr[0], clr[1], clr[2]);
     glBegin(GL_TRIANGLE_FAN);
-    for (int ii = 0; ii < 360; ii++) {
+    for (int ii=0;ii<360;++ii) {
         GLfloat theta = M_PI*GLfloat(ii)/180.0f;
-        GLfloat x = robot.R*0.5f*cosf(theta);
-        GLfloat y = robot.R*0.5f*sinf(theta);
+        GLfloat x = r*0.5f*cosf(theta);
+        GLfloat y = r*0.5f*sinf(theta);
         glVertex2f(x + robot.cfg.t[0], y + robot.cfg.t[1]);
     }
     glEnd();
