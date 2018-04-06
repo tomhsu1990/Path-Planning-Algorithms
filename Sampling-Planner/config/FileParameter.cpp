@@ -9,7 +9,7 @@
 #include "FileParameter.hpp"
 
 FileParameter::FileParameter(){
-    cfg_name = "hole-in-wall.cfg";
+    cfg_name = "rand-tri-20.cfg";
     input_dir = "inputs";
     file_name = "simple.txt";
     num_cfg = 0;
@@ -176,6 +176,7 @@ void FileParameter::parseExampleFile () {
                 sptr = strtok(nullptr, "=: #\t");
                 int num = atoi(sptr);
                 assert(num==dim_r);
+                robot.L.clear();
                 for (int i=0;i<num;++i) {
                     sptr = strtok(nullptr, "=: #\t");
                     robot.L.push_back(atof(sptr));

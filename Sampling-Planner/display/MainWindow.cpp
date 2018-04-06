@@ -235,6 +235,7 @@ void MainWindow::on_run_clicked() {
 
     f_prm->show_anim = true;
     f_prm->pause_anim = false;
+    planner->m_path_index = 0;
 
     createPlanner();
     f_prm->parseMapFile(planner);

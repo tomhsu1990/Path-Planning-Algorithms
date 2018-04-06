@@ -208,8 +208,8 @@ void Display::drawLinks (Robot robot, std::vector<float> clr) {
         robot.Thickness *= 2;
         std::sort(p.begin(), p.end(), [] (const Point2d &a, const Point2d &b) {
             if(a.X() < b.X() || (a.X() == b.X() && a.Y() < b.Y()))
-                return -1;
-            return 1;
+                return 1;
+            return -1;
         });
         if(p[0].Y() > p[3].Y()){
             drawTriangle(p[0], p[3], p[1], clr);
