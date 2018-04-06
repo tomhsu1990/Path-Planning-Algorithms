@@ -95,7 +95,7 @@ protected:
     double env_TR; // Translational RESOLUTION
     double env_RR; // Rotational RESOLUTION (deg)
 
-	PATH m_path;
+    PATH m_path;
 };
 
 #endif // PLANNER_H_
